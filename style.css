@@ -4,10 +4,25 @@
     --pink: #f3e9f1;
     --blue: #8f5bfe;
     --orange: #e78b07;
+    --orinoco-black: #303438;
   }
 
 /* Color classes*/  
 
 .background-pink {
     background-color: var(--pink);
+}
+
+.orinoco-black {
+  color: var(--orinoco-black);
+}
+
+/* Jumbotron bootstrap 4*/
+
+.jumbotron {
+  padding: 4rem 2rem;
+  margin-bottom: 2rem;
+  background-color: white;
+  border-radius: .3rem;  
+  opacity: 0.9;
 }
