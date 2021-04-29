@@ -1,0 +1,13 @@
+/* Color variables*/
+
+:root {
+    --pink: #f3e9f1;
+    --blue: #8f5bfe;
+    --orange: #e78b07;
+  }
+
+/* Color classes*/  
+
+.background-pink {
+    background-color: var(--pink);
+}
