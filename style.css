@@ -17,6 +17,10 @@
   color: var(--orinoco-black);
 }
 
+.background-orinocoblack {
+  background-color: var(--orinoco-black);
+}
+
 /* Jumbotron bootstrap 4*/
 
 .jumbotron {
@@ -36,3 +40,9 @@
   padding-right: 0;
 }
 
+/* Footer */
+ footer {
+   color: white;
+   padding-top: 15px;
+   padding-bottom: 15px;
+ }
