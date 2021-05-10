@@ -1,9 +1,9 @@
 // 1 + 1 = 2
 // 2 + 2 = 4 
 
-function sumValues(value1, value2) {
-  return value1 + value2;
-}
+//function sumValues(value1, value2) {
+//  return value1 + value2;
+//}
 
 // Build  columns function
 
@@ -12,12 +12,12 @@ function buildColsForProductType(value, row){
 
   for (let i = 0; i < value.length; i++){
     let col = `<div class="col">
-                        <div class="card">
+                        <a href="product.html"><div class="card">
                          <div class="card-body">
                          <img src="${value[i].imageUrl}">  
                         <h5 class="card-title" >${value[i].name}</h5>
                        </div>
-                       </div>
+                       </div></a>
                        </div>`
     cols.innerHTML += col                
 
@@ -44,14 +44,54 @@ function fetchProducts(typeOfProduct, row) {
   });
 }
 
+// Calling fetch function to catch data and create the 3 html rows of products
+
 fetchProducts('http://localhost:3000/api/furniture/', 'meublesRow');
 fetchProducts('http://localhost:3000/api/teddies/','teddiesRow' );
 fetchProducts('http://localhost:3000/api/cameras','camerasRow' );
 
 
 
+// Build  columns function
+
+function buildProduct(value, product){
+  let productDiv = document.getElementById(product)
+
+  for (let i = 0; i < value.length; i++){
+    let productHtml = `<div class="col">
+                        <div class="card">
+                         <div class="card-body">
+                         <img src="${value[i].imageUrl}">  
+                        <h5 class="card-title" >${value[i].name}</h5>
+                       </div>
+                       </div>
+                       </div>`
+    productDiv.innerHTML += productHtml                
+
+  }
+}
 
 
+
+
+// Get API product for product page
+
+function fetchProduct(product, productData) {
+  fetch(product)
+  .then(function(res) {
+    if (res.ok) {
+      return res.json();
+    }
+  })
+  .then(function(value) {
+    console.log(value);
+    buildProduct(value, productData);
+  
+  })
+  .catch(function(err) {
+    // Une erreur est survenue
+  });
+}
 
 
 
