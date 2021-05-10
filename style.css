@@ -46,3 +46,11 @@
    padding-top: 15px;
    padding-bottom: 15px;
  }
+
+ 
+/* Images */
+
+img {
+  height: 200px;
+  width: 200px;
+}
