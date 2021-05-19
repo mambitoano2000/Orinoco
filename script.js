@@ -95,6 +95,7 @@ fetch(`http://localhost:3000/api/${type}/${id}`)
     document
         .getElementById(optionType)
          optionType.textContent = "Couleurs:";
+        // buildInputForOptionsInput(value, optionForm, colors);
  
  }
 
@@ -117,5 +118,16 @@ else if (type === 'furniture') {
     // Une erreur est survenue
   })
 
+// Function to create options input
+/*
+function buildInputForOptionsInput(value, optionType){
+  let optionForm = document.getElementById(optionForm)
 
+  for (let i = 0; i < value.optionType.length; i++){
+    let inputAndLabel = `<input type="radio" id="${value[i]}.${optionType[0]}" name="${value[i]}.${optionType[0]}" value="${value[i]}.${optionType[0]}">
+    <label for="${value[i]}.${optionType[0]}">${value[i]}.${optionType[0]}</label><br>`
+    optionForm.innerHTML += inputAndLabel                
 
+  }
+}
+*/
