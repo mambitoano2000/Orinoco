@@ -75,28 +75,43 @@ fetch(`http://localhost:3000/api/${type}/${id}`)
   })
   .then(function(value) {
     console.log(value);
+
+    document
+          .getElementById(productName)
+          productName.textContent = `${value.name}`;
+   document
+          .getElementById(productPrice)
+          productPrice.textContent = `Prix: ${value.price}$`;
+   document       
+          .getElementById(productDescription)
+          productDescription.textContent = `${value.description}`;
+
+  document 
+          .getElementById(productImage)
+           productImage.src = value.imageUrl;      
+  
+
  if (type === 'teddies') {
     document
-        .getElementById(productCard)
-         productCard.innerHTML = `<ul><li>${value.name}</li><li>tedizinhos</li></ul>`
+        .getElementById(optionType)
+         optionType.textContent = "Couleurs:";
  
  }
 
 else if (type === 'cameras') {
-   document
-       .getElementById(productCard)
-        productCard.innerHTML = `<ul><li>${value.name}</li><li>camerazinhas</li></ul>`
+    document
+        .getElementById(optionType)
+         optionType.textContent = "Lentilles:";
 
 }  
 
 
 else if (type === 'furniture') {
-    document
-        .getElementById(productCard)
-        productCard.innerHTML = `<ul><li>${value.name}</li><li>moveizinhos</li></ul>`
+     document
+        .getElementById(optionType)
+         optionType.textContent = "Vernis:";
   
-}
-  })
+}})
 
   .catch(function(err) {
     // Une erreur est survenue
