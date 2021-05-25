@@ -88,8 +88,15 @@ fetch(`http://localhost:3000/api/${type}/${id}`)
 
   document 
           .getElementById(productImage)
-           productImage.src = productValue.imageUrl;      
-  
+           productImage.src = productValue.imageUrl;   
+           
+document
+          . getElementById(productQuantityDiv);  
+           productQuantityDiv.innerHTML = `<label for="quantity">Quantité:</label>
+           <input type="number" id="productQuantity" name="quantity"  value="1" min="1"  placeholder="1">`; 
+
+ let productQuantity = document.getElementById('productQuantity').value;
+console.log("product quantity: ", productQuantity); 
 
  if (type === 'teddies') {
     document
@@ -133,3 +140,7 @@ function buildInputForOptionsInput(value, type){
   }
 }
 
+// get product data and quantity to send to localStorage
+
+/*let productQuantity = document.getElementById('productQuantity').value;
+console.log("product quantity: ", productQuantity);*/
