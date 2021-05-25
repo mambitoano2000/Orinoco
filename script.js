@@ -73,29 +73,29 @@ fetch(`http://localhost:3000/api/${type}/${id}`)
      return res.json();
     }
   })
-  .then(function(value) {
-    console.log(value);
+  .then(function(productValue) {
+    console.log(productValue);
 
     document
           .getElementById(productName)
-          productName.textContent = `${value.name}`;
+          productName.textContent = `${productValue.name}`;
    document
           .getElementById(productPrice)
-          productPrice.textContent = `Prix: ${value.price}$`;
+          productPrice.textContent = `Prix: ${productValue.price}$`;
    document       
           .getElementById(productDescription)
-          productDescription.textContent = `${value.description}`;
+          productDescription.textContent = `${productValue.description}`;
 
   document 
           .getElementById(productImage)
-           productImage.src = value.imageUrl;      
+           productImage.src = productValue.imageUrl;      
   
 
  if (type === 'teddies') {
     document
         .getElementById(optionType)
          optionType.textContent = "Couleurs:";
-        // buildInputForOptionsInput(value, optionForm, colors);
+         buildInputForOptionsInput(productValue, 'colors');
  
  }
 
@@ -119,15 +119,17 @@ else if (type === 'furniture') {
   })
 
 // Function to create options input
-/*
-function buildInputForOptionsInput(value, optionType){
-  let optionForm = document.getElementById(optionForm)
 
-  for (let i = 0; i < value.optionType.length; i++){
-    let inputAndLabel = `<input type="radio" id="${value[i]}.${optionType[0]}" name="${value[i]}.${optionType[0]}" value="${value[i]}.${optionType[0]}">
-    <label for="${value[i]}.${optionType[0]}">${value[i]}.${optionType[0]}</label><br>`
+function buildInputForOptionsInput(value, type){
+  let optionForm = document.getElementById('optionForm')
+  console.log("type: ", type);
+  let options = value[type]
+  for (let i = 0; i < options.length; i++){
+    console.log("log options: ", value);
+    let inputAndLabel = `<input type="radio" name="productoptions" value="${options[i]}">
+    <label for="${options[i]}">${options[i]}</label><br>`
     optionForm.innerHTML += inputAndLabel                
 
   }
 }
-*/
+
