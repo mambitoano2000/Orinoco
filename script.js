@@ -91,12 +91,28 @@ fetch(`http://localhost:3000/api/${type}/${id}`)
            productImage.src = productValue.imageUrl;   
            
 document
-          . getElementById(productQuantityDiv);  
+          .getElementById(productQuantityDiv);  
            productQuantityDiv.innerHTML = `<label for="quantity">Quantité:</label>
            <input type="number" id="productQuantity" name="quantity"  value="1" min="1"  placeholder="1">`; 
 
- let productQuantity = document.getElementById('productQuantity').value;
-console.log("product quantity: ", productQuantity); 
+// document
+//          .getElementById(addToCartBtn);
+//          addToCartBtn.innerHTML = `<button type="button" id="addToCart" class="btn btn-primary mt-3">Ajouter au panier</button>`;            
+
+ //let productQuantity = document.getElementById('productQuantity').value;
+//console.log("product quantity: ", productQuantity); 
+
+// Get Add to Cart button and attach click event
+let btnSubmit = document.getElementById('addToCart');
+btnSubmit.addEventListener('click', function() {
+  // Get product data
+  let productQuantity = document.getElementById('productQuantity').value;
+  let selectedProperties = {
+    quantity: productQuantity,
+  }
+  sendProductToLocalStorage(productValue, selectedProperties);
+});
+
 
  if (type === 'teddies') {
     document
@@ -110,6 +126,7 @@ else if (type === 'cameras') {
     document
         .getElementById(optionType)
          optionType.textContent = "Lentilles:";
+         buildInputForOptionsInput(productValue, 'lenses');
 
 }  
 
@@ -118,6 +135,7 @@ else if (type === 'furniture') {
      document
         .getElementById(optionType)
          optionType.textContent = "Vernis:";
+         buildInputForOptionsInput(productValue, 'varnish');
   
 }})
 
@@ -133,14 +151,37 @@ function buildInputForOptionsInput(value, type){
   let options = value[type]
   for (let i = 0; i < options.length; i++){
     console.log("log options: ", value);
-    let inputAndLabel = `<input type="radio" name="productoptions" value="${options[i]}">
+    let inputAndLabel = `<input type="radio" name="productoptions" value="${options[i]}" ${i === 0 ? 'checked' : ''}>
     <label for="${options[i]}">${options[i]}</label><br>`
     optionForm.innerHTML += inputAndLabel                
 
   }
 }
 
-// get product data and quantity to send to localStorage
+// product click event
 
-/*let productQuantity = document.getElementById('productQuantity').value;
-console.log("product quantity: ", productQuantity);*/
+  // let btnClickEvent = document.getElementById('addToCart');
+  // btnClickEvent.addEventListener('click', function() {   
+    
+  //    productQuantity = document.getElementById('productQuantity').value;
+  //   console.log("product quantity: ", productQuantity);
+  // });
+
+
+
+
+  
+
+// send product and quantity to localStorage
+
+function sendProductToLocalStorage(product, selectedProperties) {
+  console.log('product: ', product);
+  console.log('selectedProperties: ', selectedProperties);
+  let itemToSave = { 
+    ...product,
+    ...selectedProperties,
+  }
+  console.log('itemToSave: ', itemToSave);
+  localStorage.setItem(product._id, JSON.stringify(itemToSave));
+  console.log("local storage: ", localStorage);
+}
