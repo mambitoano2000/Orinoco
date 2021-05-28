@@ -90,12 +90,6 @@ fetch(`http://localhost:3000/api/${type}/${id}`)
       .getElementById(productImage)
     productImage.src = productValue.imageUrl;
 
-   /* document
-      .getElementById(productQuantityDiv);
-    productQuantityDiv.innerHTML = `<label for="quantity">Quantité:</label>
-           <input type="number" id="productQuantity" name="quantity"  value="1" min="1"  placeholder="1">`;*/
-
-
     if (type === 'teddies') {
       document
         .getElementById(optionType)
@@ -120,16 +114,34 @@ fetch(`http://localhost:3000/api/${type}/${id}`)
       buildInputForOptionsInput(productValue, 'varnish');
 
     }
-      // Create quantity and submit btn
+
+    // Function to create options input
+
+    function buildInputForOptionsInput(value, type) {
+      let optionForm = document.getElementById('optionForm')
+      console.log("type: ", type);
+      let options = value[type]
+      for (let i = 0; i < options.length; i++) {
+        console.log("log options: ", value);
+        let inputAndLabel = `<input type="radio" name="productoptions" value="${options[i]}" ${i === 0 ? 'checked' : ''}>
+    <label for="${options[i]}">${options[i]}</label><br>`
+        optionForm.innerHTML += inputAndLabel
+
+      }
+    }
+
+    // Create quantity and submit btn
     document
       .getElementById(optionForm);
     let quantityAndSubmitBtns = `<label for="quantity">Quantité:</label>
            <input type="number" id="productQuantity" name="quantity"  value="1" min="1"  placeholder="1"><br><button type="submit" id="addToCart" class="btn btn-primary mt-3">Ajouter au panier</button>`;
     optionForm.innerHTML += quantityAndSubmitBtns;
 
-    let onSubmit = function () {
+
+
+    /*let onSubmit = function () {
       // Get product data
-      let productQuantity = document.getElementById('productQuantity').value;
+      let productQuantity = event.target.elements.productoptions.value;
 
       let productColor = document.querySelector('input[name="productoptions"]:checked').value;
       console.log('productColor: ', productColor);
@@ -138,7 +150,7 @@ fetch(`http://localhost:3000/api/${type}/${id}`)
         quantity: productQuantity,
       }
       sendProductToLocalStorage(productValue, selectedProperties);
-    }
+    }*/
 
     // Get Add to Cart button and attach click event
     // let btnSubmit = document.getElementById('addToCart');
@@ -150,30 +162,31 @@ fetch(`http://localhost:3000/api/${type}/${id}`)
       console.log(event.target.elements);
       console.log(event.target.elements.productoptions.value);
       console.log(event.target.elements.quantity.value);
+
+      let productQuantity = event.target.elements.quantity.value;
+      let productOptions = event.target.elements.productoptions.value;
+
+
+
+      let selectedProperties = {
+        quantity: productQuantity,
+        options: productOptions,
+      }
+      sendProductToLocalStorage(productValue, selectedProperties);
+
     }
-    
+
     const form = document.getElementById('optionForm');
     form.addEventListener('submit', logSubmit);
+
+
   })
 
   .catch(function (err) {
     // Une erreur est survenue
   })
 
-// Function to create options input
 
-function buildInputForOptionsInput(value, type) {
-  let optionForm = document.getElementById('optionForm')
-  console.log("type: ", type);
-  let options = value[type]
-  for (let i = 0; i < options.length; i++) {
-    console.log("log options: ", value);
-    let inputAndLabel = `<input type="radio" name="productoptions" value="${options[i]}" ${i === 0 ? 'checked' : ''}>
-    <label for="${options[i]}">${options[i]}</label><br>`
-    optionForm.innerHTML += inputAndLabel
-
-  }
-}
 
 
 // send product and quantity to localStorage
@@ -186,6 +199,28 @@ function sendProductToLocalStorage(product, selectedProperties) {
     ...selectedProperties,
   }
   console.log('itemToSave: ', itemToSave);
-  localStorage.setItem(product._id, JSON.stringify(itemToSave));
+  //localStorage.setItem(product._id, JSON.stringify(itemToSave));
+  //console.log("local storage: ", localStorage);
+
+  if (localStorage.getItem(product._id) !== null) {
+    //Data item exists
+    let itemAlreadyInCart = JSON.parse(localStorage.getItem(product._id))  || [];
+    console.log("item already in cart: ", itemAlreadyInCart);
+
+      itemAlreadyInCart.quantity = (+itemAlreadyInCart.quantity) + (+itemToSave.quantity);
+
+      localStorage.setItem(product._id, JSON.stringify(itemAlreadyInCart));
+
+
+
+
+
+
+  } else {
+    localStorage.setItem(product._id, JSON.stringify(itemToSave));
+   
+  }
+
   console.log("local storage: ", localStorage);
 }
+
