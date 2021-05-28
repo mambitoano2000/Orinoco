@@ -199,8 +199,6 @@ function sendProductToLocalStorage(product, selectedProperties) {
     ...selectedProperties,
   }
   console.log('itemToSave: ', itemToSave);
-  //localStorage.setItem(product._id, JSON.stringify(itemToSave));
-  //console.log("local storage: ", localStorage);
 
   if (localStorage.getItem(product._id) !== null) {
     //Data item exists
@@ -212,10 +210,6 @@ function sendProductToLocalStorage(product, selectedProperties) {
       localStorage.setItem(product._id, JSON.stringify(itemAlreadyInCart));
 
 
-
-
-
-
   } else {
     localStorage.setItem(product._id, JSON.stringify(itemToSave));
    
@@ -223,4 +217,31 @@ function sendProductToLocalStorage(product, selectedProperties) {
 
   console.log("local storage: ", localStorage);
 }
+
+// create cart page
+
+/*function buildCartCard(value) {
+  let  cartCard = document.getElementById('panierCard')
+  let cartCardData = `<p>${value[i.name]}</p>`
+    cartCard.innerHTML += cartCardData
+    
+  }*/
+
+
+// get localStorage products
+
+function getLocalStorageItems(localStorage) {
+
+  for (let i = 0; i < localStorage.length; i++) {
+    let key = localStorage.key(i);
+    let value = JSON.parse(localStorage.getItem(key));
+    console.log({key, value});
+    console.log(value.name);
+    
+  }  
+
+      
+}
+
+getLocalStorageItems(localStorage);
 
