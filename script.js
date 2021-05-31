@@ -229,19 +229,46 @@ function sendProductToLocalStorage(product, selectedProperties) {
 
 
 // get localStorage products
-
-function getLocalStorageItems(localStorage) {
-
-  for (let i = 0; i < localStorage.length; i++) {
-    let key = localStorage.key(i);
-    let value = JSON.parse(localStorage.getItem(key));
-    console.log({key, value});
-    console.log(value.name);
-    
-  }  
-
+document.addEventListener('DOMContentLoaded', function() {
+  function getLocalStorageItems(localStorage) {
+    for (let i = 0; i < localStorage.length; i++) {
+      let key = localStorage.key(i);
+      let value = JSON.parse(localStorage.getItem(key));
+      console.log({key, value});
+      console.log(value.name);
+      let totalSingleProductPrice = value.quantity * value.price;
+      console.log(totalSingleProductPrice);
       
-}
+      let cartCard = document.getElementById('panier');
+      let cartCardData = `<div class="m-3 d-flex align-items-center justify-content-between js-product" id="${value._id}"><img src="${value.imageUrl}" class="img-fluid"> <p>${value.name}</p> <form><label for="quantity">Quantité:</label>
+      <input type="number"  name="quantity"  value="${value.quantity}" min="1"  placeholder="${value.quantity}"></form> <p>Prix: ${totalSingleProductPrice}€</p>      <button type="button" class="btn btn-labeled btn-danger">
+      Effacer</button> </div>`
+      cartCard.innerHTML += cartCardData;
+      
+  //deleteProductFromCart(value._id);
+    }  
+  }
+  getLocalStorageItems(localStorage);
+  document.querySelectorAll('.js-product').forEach(item => {
+    item.addEventListener('click', event => {
+      let productId = event.currentTarget.id;
+     
+        console.log("product id ",productId)
+        window.localStorage.removeItem(productId);
+        item.remove();
+    })
+  })
+}, false);
 
-getLocalStorageItems(localStorage);
+
+// delete product from cart
+
+function deleteProductFromCart (productValueId) {
+  
+
+    
+    
+
+  }
+  
 
