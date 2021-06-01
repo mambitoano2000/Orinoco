@@ -218,14 +218,6 @@ function sendProductToLocalStorage(product, selectedProperties) {
   console.log("local storage: ", localStorage);
 }
 
-// create cart page
-
-/*function buildCartCard(value) {
-  let  cartCard = document.getElementById('panierCard')
-  let cartCardData = `<p>${value[i.name]}</p>`
-    cartCard.innerHTML += cartCardData
-    
-  }*/
 
 
 // get localStorage products
@@ -238,37 +230,27 @@ document.addEventListener('DOMContentLoaded', function() {
       console.log(value.name);
       let totalSingleProductPrice = value.quantity * value.price;
       console.log(totalSingleProductPrice);
-      
+      // create cart page
       let cartCard = document.getElementById('panier');
       let cartCardData = `<div class="m-3 d-flex align-items-center justify-content-between js-product" id="${value._id}"><img src="${value.imageUrl}" class="img-fluid"> <p>${value.name}</p> <form><label for="quantity">Quantité:</label>
-      <input type="number"  name="quantity"  value="${value.quantity}" min="1"  placeholder="${value.quantity}"></form> <p>Prix: ${totalSingleProductPrice}€</p>      <button type="button" class="btn btn-labeled btn-danger">
+      <input type="number"  name="quantity"  value="${value.quantity}" min="1"  placeholder="${value.quantity}"></form> <p>Prix: ${totalSingleProductPrice}€</p>      <button type="button" data-productdataid="${value._id}"class="btn btn-labeled btn-danger btn-supprimer-produit">
       Effacer</button> </div>`
       cartCard.innerHTML += cartCardData;
       
-  //deleteProductFromCart(value._id);
     }  
   }
   getLocalStorageItems(localStorage);
-  document.querySelectorAll('.js-product').forEach(item => {
+  // delete product from cart
+  document.querySelectorAll('.btn-supprimer-produit').forEach(item => {
     item.addEventListener('click', event => {
-      let productId = event.currentTarget.id;
+      let productId = item.dataset.productdataid;
      
         console.log("product id ",productId)
         window.localStorage.removeItem(productId);
-        item.remove();
+        item.parentElement.remove();
     })
   })
 }, false);
 
 
-// delete product from cart
-
-function deleteProductFromCart (productValueId) {
-  
-
-    
-    
-
-  }
-  
 
