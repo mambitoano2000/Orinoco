@@ -139,23 +139,6 @@ fetch(`http://localhost:3000/api/${type}/${id}`)
 
 
 
-    /*let onSubmit = function () {
-      // Get product data
-      let productQuantity = event.target.elements.productoptions.value;
-
-      let productColor = document.querySelector('input[name="productoptions"]:checked').value;
-      console.log('productColor: ', productColor);
-
-      let selectedProperties = {
-        quantity: productQuantity,
-      }
-      sendProductToLocalStorage(productValue, selectedProperties);
-    }*/
-
-    // Get Add to Cart button and attach click event
-    // let btnSubmit = document.getElementById('addToCart');
-    // btnSubmit.addEventListener('click', onSubmit);
-
     function logSubmit(event) {
       event.preventDefault();
       console.log('SUBMIT!!!')
@@ -223,6 +206,7 @@ function sendProductToLocalStorage(product, selectedProperties) {
 // get localStorage products
 document.addEventListener('DOMContentLoaded', function() {
   function getLocalStorageItems(localStorage) {
+    let totalPrice = 0;
     for (let i = 0; i < localStorage.length; i++) {
       let key = localStorage.key(i);
       let value = JSON.parse(localStorage.getItem(key));
@@ -230,13 +214,18 @@ document.addEventListener('DOMContentLoaded', function() {
       console.log(value.name);
       let totalSingleProductPrice = value.quantity * value.price;
       console.log(totalSingleProductPrice);
+      totalPrice += totalSingleProductPrice;
+      console.log(totalPrice);
       // create cart page
       let cartCard = document.getElementById('panier');
       let cartCardData = `<div class="m-3 d-flex align-items-center justify-content-between js-product" id="${value._id}"><img src="${value.imageUrl}" class="img-fluid"> <p>${value.name}</p> <form><label for="quantity">Quantité:</label>
       <input type="number"  name="quantity"  value="${value.quantity}" min="1"  placeholder="${value.quantity}"></form> <p>Prix: ${totalSingleProductPrice}€</p>      <button type="button" data-productdataid="${value._id}"class="btn btn-labeled btn-danger btn-supprimer-produit">
-      Effacer</button> </div>`
+      Effacer</button> </div>`;
       cartCard.innerHTML += cartCardData;
       
+      let totalPriceDiv = document.getElementById('totalpricediv');
+      let totalPriceParagraph = `<div class="d-flex justify-content-end"> Prix Total: ${totalPrice}€</div>`;
+      totalPriceDiv.innerHTML = totalPriceParagraph;
     }  
   }
   getLocalStorageItems(localStorage);
@@ -253,4 +242,4 @@ document.addEventListener('DOMContentLoaded', function() {
 }, false);
 
 
-
+// delete update quantity in shopping page
