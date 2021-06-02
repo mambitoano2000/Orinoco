@@ -185,17 +185,17 @@ function sendProductToLocalStorage(product, selectedProperties) {
 
   if (localStorage.getItem(product._id) !== null) {
     //Data item exists
-    let itemAlreadyInCart = JSON.parse(localStorage.getItem(product._id))  || [];
+    let itemAlreadyInCart = JSON.parse(localStorage.getItem(product._id)) || [];
     console.log("item already in cart: ", itemAlreadyInCart);
 
-      itemAlreadyInCart.quantity = (+itemAlreadyInCart.quantity) + (+itemToSave.quantity);
+    itemAlreadyInCart.quantity = (+itemAlreadyInCart.quantity) + (+itemToSave.quantity);
 
-      localStorage.setItem(product._id, JSON.stringify(itemAlreadyInCart));
+    localStorage.setItem(product._id, JSON.stringify(itemAlreadyInCart));
 
 
   } else {
     localStorage.setItem(product._id, JSON.stringify(itemToSave));
-   
+
   }
 
   console.log("local storage: ", localStorage);
@@ -204,42 +204,61 @@ function sendProductToLocalStorage(product, selectedProperties) {
 
 
 // get localStorage products
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', function () {
   function getLocalStorageItems(localStorage) {
     let totalPrice = 0;
     for (let i = 0; i < localStorage.length; i++) {
       let key = localStorage.key(i);
       let value = JSON.parse(localStorage.getItem(key));
-      console.log({key, value});
+      console.log({ key, value });
       console.log(value.name);
       let totalSingleProductPrice = value.quantity * value.price;
       console.log(totalSingleProductPrice);
       totalPrice += totalSingleProductPrice;
       console.log(totalPrice);
-      // create cart page
+      // create cart div
       let cartCard = document.getElementById('panier');
       let cartCardData = `<div class="m-3 d-flex align-items-center justify-content-between js-product" id="${value._id}"><img src="${value.imageUrl}" class="img-fluid"> <p>${value.name}</p> <form><label for="quantity">Quantité:</label>
-      <input type="number"  name="quantity"  value="${value.quantity}" min="1"  placeholder="${value.quantity}"></form> <p>Prix: ${totalSingleProductPrice}€</p>      <button type="button" data-productdataid="${value._id}"class="btn btn-labeled btn-danger btn-supprimer-produit">
+      <input type="number"  name="quantity" class="quantityInput" value="${value.quantity}" data-productdataid="${value._id}" min="1"  placeholder="${value.quantity}"></form> <p>Prix: ${totalSingleProductPrice}€</p>      <button type="button" data-productdataid="${value._id}"class="btn btn-labeled btn-danger btn-supprimer-produit">
       Effacer</button> </div>`;
       cartCard.innerHTML += cartCardData;
-      
+      // create total price div
       let totalPriceDiv = document.getElementById('totalpricediv');
       let totalPriceParagraph = `<div class="d-flex justify-content-end"> Prix Total: ${totalPrice}€</div>`;
       totalPriceDiv.innerHTML = totalPriceParagraph;
-    }  
+      updateItemQuantityOnCart();
+    }
   }
   getLocalStorageItems(localStorage);
+  //updateItemQuantityOnCart (value.id);
   // delete product from cart
   document.querySelectorAll('.btn-supprimer-produit').forEach(item => {
     item.addEventListener('click', event => {
       let productId = item.dataset.productdataid;
-     
-        console.log("product id ",productId)
-        window.localStorage.removeItem(productId);
-        item.parentElement.remove();
+
+      console.log("product id ", productId)
+      window.localStorage.removeItem(productId);
+      item.parentElement.remove();
     })
   })
 }, false);
 
 
-// delete update quantity in shopping page
+// update quantity in shopping page/localStorage
+
+function updateItemQuantityOnCart() {
+  document.querySelectorAll('.quantityInput').forEach(item => {
+    item.addEventListener('input', event => {
+      let changedItemQuantityValue = item.value;
+      console.log(changedItemQuantityValue);
+      let productId = item.dataset.productdataid;
+      console.log("product id ", productId)
+      let value = JSON.parse(localStorage.getItem(productId));
+      console.log("product array ", value)
+      value.quantity = changedItemQuantityValue;
+      console.log("new quantity ", value.quantity)
+      localStorage.setItem(productId, JSON.stringify(value));
+
+    })
+  })
+}
