@@ -1,5 +1,4 @@
 // Build  columns function
-
 function buildColsForProductType(value, optionType, productType, row) {
   let cols = document.getElementById(row)
 
@@ -219,18 +218,18 @@ document.addEventListener('DOMContentLoaded', function () {
       // create cart div
       let cartCard = document.getElementById('panier');
       let cartCardData = `<div class="m-3 d-flex align-items-center justify-content-between js-product" id="${value._id}"><img src="${value.imageUrl}" class="img-fluid"> <p>${value.name}</p> <form><label for="quantity">Quantité:</label>
-      <input type="number"  name="quantity" class="quantityInput" value="${value.quantity}" data-productdataid="${value._id}" min="1"  placeholder="${value.quantity}"></form> <p>Prix: ${totalSingleProductPrice}€</p>      <button type="button" data-productdataid="${value._id}"class="btn btn-labeled btn-danger btn-supprimer-produit">
+      <input type="number"  name="quantity" class="quantityInput" value="${value.quantity}" data-productdataid="${value._id}" min="1"  placeholder="${value.quantity}"></form> <p class="totalpriceparagraph" data-productdataparagraphid="${value._id}">Prix: <span class="js-product-total-price">${totalSingleProductPrice}</span>€</p>      <button type="button" data-productdataid="${value._id}"class="btn btn-labeled btn-danger btn-supprimer-produit">
       Effacer</button> </div>`;
       cartCard.innerHTML += cartCardData;
       // create total price div
       let totalPriceDiv = document.getElementById('totalpricediv');
-      let totalPriceParagraph = `<div class="d-flex justify-content-end"> Prix Total: ${totalPrice}€</div>`;
+      let totalPriceParagraph = `<div class="d-flex justify-content-end"> Prix Total:<span class="js-total-price">${totalPrice}</span>€</div>`;
       totalPriceDiv.innerHTML = totalPriceParagraph;
       updateItemQuantityOnCart();
     }
   }
   getLocalStorageItems(localStorage);
-  //updateItemQuantityOnCart (value.id);
+
   // delete product from cart
   document.querySelectorAll('.btn-supprimer-produit').forEach(item => {
     item.addEventListener('click', event => {
@@ -258,7 +257,30 @@ function updateItemQuantityOnCart() {
       value.quantity = changedItemQuantityValue;
       console.log("new quantity ", value.quantity)
       localStorage.setItem(productId, JSON.stringify(value));
-
+      let newTotalProductPrice = value.price * changedItemQuantityValue;
+      console.log("new total product price ", newTotalProductPrice)
+      // let newTotalProductPriceParagraph = document.querySelectorAll(`[data-productdataparagraphid="${value._id}"]`)
+      //   console.log("totalPriceParagraph", newTotalProductPriceParagraph)
+      //   newTotalProductPriceParagraph[0].innerText = `Prix: ${newTotalProductPrice}€`; 
+      
+      /*const productTotalPrice = item.closest('.js-product').querySelector('.js-product-total-price');
+      const oldProductTotalPrice = Number(productTotalPrice.innerHTML);
+      productTotalPrice.innerHTML = newTotalProductPrice;
+      const totalPrice = document.querySelector('.js-total-price');
+      const oldTotalPrice = Number(totalPrice.innerText);
+      totalPrice.innerText = oldTotalPrice - oldProductTotalPrice + newTotalProductPrice;*/
+      updateTotalPrice (item, newTotalProductPrice);
     })
   })
+}
+
+// update total price in DOM
+ 
+function updateTotalPrice (item, newTotalProductPrice) {
+  const productTotalPrice = item.closest('.js-product').querySelector('.js-product-total-price');
+  const oldProductTotalPrice = Number(productTotalPrice.innerHTML);
+  productTotalPrice.innerHTML = newTotalProductPrice;
+  const totalPrice = document.querySelector('.js-total-price');
+  const oldTotalPrice = Number(totalPrice.innerText);
+  totalPrice.innerText = oldTotalPrice - oldProductTotalPrice + newTotalProductPrice;
 }
