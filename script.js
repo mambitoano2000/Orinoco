@@ -253,6 +253,8 @@ document.addEventListener('DOMContentLoaded', function () {
       if (totalPrice.innerText == 0) {
         totalPrice.parentElement.remove();
         emptyCart()
+        orderDiv = document.getElementById('order');
+        orderDiv.remove();
       }
     })
   })
@@ -301,7 +303,7 @@ function updateTotalPrice(item, newTotalProductPrice) {
   totalPrice.innerText = oldTotalPrice - oldProductTotalPrice + newTotalProductPrice;
 }
 
-// empty cart and register form
+// empty cart message
 function emptyCart() {
   if (localStorage.length === 0) {
     totalPriceDivEmpty = document.getElementById('totalpricediv');
@@ -310,7 +312,10 @@ function emptyCart() {
     const createText = document.createTextNode("Votre panier est vide.");    
     createP.appendChild(createText);                                           
     totalPriceDivEmpty.appendChild(createP);                               
-  };
+  } else {
+    orderDiv = document.getElementById('order')
+    orderDiv.innerHTML = `<p>oii</p>`;
+  }
 }
 
   
