@@ -314,7 +314,7 @@ function emptyCart() {
     totalPriceDivEmpty.appendChild(createP);                               
   } else {
     orderDiv = document.getElementById('order')
-    orderDiv.innerHTML = `<form><div><label for="prenom">Prénom</label><input id="prenom" type="text"></input></div><div><label for="nom">Nom</label><input id="nom" type="text"></input></div><div><label for="adresse">Adresse</label><input id="adresse" type="text"></input></div><div><label for="ville">Ville</label><input id="ville" type="text"></input></div><div><label for="email">Email</label><input id="email" type="email"></input></div><button type="submit" class="btn btn-success">Commander</button></form>`;
+    orderDiv.innerHTML = `<form><div><label for="prenom">Prénom</label><br><input id="prenom" type="text" required></input></div><div><label for="nom">Nom</label><br><input id="nom" type="text" required></input></div><div><label for="adresse">Adresse</label><br><input id="adresse" type="text" required></input></div><div><label for="ville">Ville</label><br><input id="ville" type="text" required></input></div><div><label for="email" required>Email</label><br><input id="email" type="email"></input></div><br><button type="submit" class="btn btn-success">Commander</button></form>`;
   }
 }
 
