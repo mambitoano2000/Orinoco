@@ -223,7 +223,7 @@ document.addEventListener('DOMContentLoaded', function () {
       cartCard.innerHTML += cartCardData;
       // create total price div
       let totalPriceDiv = document.getElementById('totalpricediv');
-      let totalPriceParagraph = `<div class="d-flex justify-content-end"> Prix Total:<span class="js-total-price">${totalPrice}</span>€</div>`;
+      let totalPriceParagraph = `<div class="d-flex justify-content-end"><p>Prix Total: <span class="js-total-price">${totalPrice}</span>€</p></div>`;
       totalPriceDiv.innerHTML = totalPriceParagraph;
       updateItemQuantityOnCart();
     }
@@ -243,9 +243,14 @@ document.addEventListener('DOMContentLoaded', function () {
       const totalPrice = document.querySelector('.js-total-price');
       const oldTotalPrice = Number(totalPrice.innerText);
       totalPrice.innerText = oldTotalPrice - productTotalPrice;
+     
 
       window.localStorage.removeItem(productId);
       item.parentElement.remove();
+      console.log(totalPrice.innerText);
+      if (totalPrice.innerText == 0) {
+        totalPrice.parentElement.remove();
+      }
     })
   })
 }, false);
