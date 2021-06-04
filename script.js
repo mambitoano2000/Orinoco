@@ -229,6 +229,8 @@ document.addEventListener('DOMContentLoaded', function () {
     }
   }
   getLocalStorageItems(localStorage);
+  emptyCart()
+  
 
   // delete product from cart
   document.querySelectorAll('.btn-supprimer-produit').forEach(item => {
@@ -243,13 +245,14 @@ document.addEventListener('DOMContentLoaded', function () {
       const totalPrice = document.querySelector('.js-total-price');
       const oldTotalPrice = Number(totalPrice.innerText);
       totalPrice.innerText = oldTotalPrice - productTotalPrice;
-     
+
 
       window.localStorage.removeItem(productId);
       item.parentElement.remove();
       console.log(totalPrice.innerText);
       if (totalPrice.innerText == 0) {
         totalPrice.parentElement.remove();
+        emptyCart()
       }
     })
   })
@@ -297,3 +300,19 @@ function updateTotalPrice(item, newTotalProductPrice) {
   const oldTotalPrice = Number(totalPrice.innerText);
   totalPrice.innerText = oldTotalPrice - oldProductTotalPrice + newTotalProductPrice;
 }
+
+// empty cart and register form
+function emptyCart() {
+  if (localStorage.length === 0) {
+    totalPriceDivEmpty = document.getElementById('totalpricediv');
+    const createP = document.createElement("P");   
+    createP.classList.add('text-center');                   
+    const createText = document.createTextNode("Votre panier est vide.");    
+    createP.appendChild(createText);                                           
+    totalPriceDivEmpty.appendChild(createP);                               
+  };
+}
+
+  
+
+
