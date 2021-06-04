@@ -236,6 +236,14 @@ document.addEventListener('DOMContentLoaded', function () {
       let productId = item.dataset.productdataid;
 
       console.log("product id ", productId)
+      let value = JSON.parse(localStorage.getItem(productId));
+      console.log("product array ", value)
+      let productTotalPrice = value.quantity * value.price;
+      console.log("productTotalPrice ", productTotalPrice)
+      const totalPrice = document.querySelector('.js-total-price');
+      const oldTotalPrice = Number(totalPrice.innerText);
+      totalPrice.innerText = oldTotalPrice - productTotalPrice;
+
       window.localStorage.removeItem(productId);
       item.parentElement.remove();
     })
@@ -262,21 +270,21 @@ function updateItemQuantityOnCart() {
       // let newTotalProductPriceParagraph = document.querySelectorAll(`[data-productdataparagraphid="${value._id}"]`)
       //   console.log("totalPriceParagraph", newTotalProductPriceParagraph)
       //   newTotalProductPriceParagraph[0].innerText = `Prix: ${newTotalProductPrice}€`; 
-      
+
       /*const productTotalPrice = item.closest('.js-product').querySelector('.js-product-total-price');
       const oldProductTotalPrice = Number(productTotalPrice.innerHTML);
       productTotalPrice.innerHTML = newTotalProductPrice;
       const totalPrice = document.querySelector('.js-total-price');
       const oldTotalPrice = Number(totalPrice.innerText);
       totalPrice.innerText = oldTotalPrice - oldProductTotalPrice + newTotalProductPrice;*/
-      updateTotalPrice (item, newTotalProductPrice);
+      updateTotalPrice(item, newTotalProductPrice);
     })
   })
 }
 
 // update total price in DOM
- 
-function updateTotalPrice (item, newTotalProductPrice) {
+
+function updateTotalPrice(item, newTotalProductPrice) {
   const productTotalPrice = item.closest('.js-product').querySelector('.js-product-total-price');
   const oldProductTotalPrice = Number(productTotalPrice.innerHTML);
   productTotalPrice.innerHTML = newTotalProductPrice;
