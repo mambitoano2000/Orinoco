@@ -314,10 +314,10 @@ function emptyCart() {
     totalPriceDivEmpty.appendChild(createP);                               
   } else {
     orderDiv = document.getElementById('order')
-    orderDiv.innerHTML = `<p>oii</p>`;
+    orderDiv.innerHTML = `<form><div><label for="prenom">Prénom</label><input id="prenom" type="text"></input></div><div><label for="nom">Nom</label><input id="nom" type="text"></input></div><div><label for="adresse">Adresse</label><input id="adresse" type="text"></input></div><div><label for="ville">Ville</label><input id="ville" type="text"></input></div><div><label for="email">Email</label><input id="email" type="email"></input></div><button type="submit" class="btn btn-success">Commander</button></form>`;
   }
 }
 
-  
+
 
 
