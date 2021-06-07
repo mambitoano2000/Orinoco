@@ -314,10 +314,39 @@ function emptyCart() {
     totalPriceDivEmpty.appendChild(createP);                               
   } else {
     orderDiv = document.getElementById('order')
-    orderDiv.innerHTML = `<form><div><label for="prenom">Prénom</label><br><input id="prenom" type="text" required></input></div><div><label for="nom">Nom</label><br><input id="nom" type="text" required></input></div><div><label for="adresse">Adresse</label><br><input id="adresse" type="text" required></input></div><div><label for="ville">Ville</label><br><input id="ville" type="text" required></input></div><div><label for="email" required>Email</label><br><input id="email" type="email"></input></div><br><button type="submit" class="btn btn-success">Commander</button></form>`;
+    orderDiv.innerHTML = `<form id="orderform"><div><label for="prenom">Prénom</label><br><input id="prenom" type="text" required></input></div><div><label for="nom">Nom</label><br><input id="nom" type="text" required></input></div><div><label for="adresse">Adresse</label><br><input id="adresse" type="text" required></input></div><div><label for="ville">Ville</label><br><input id="ville" type="text" required></input></div><div><label for="email" required>Email</label><br><input id="email" type="email"></input></div><br><button type="submit" id="btnorder" class="btn btn-success">Commander</button></form>`;
   }
 }
 
 
+
+
+// submit command
+
+document.addEventListener('DOMContentLoaded', function () {
+  const orderForm = document.getElementById('orderform');
+  orderForm.addEventListener('submit', logOrderSubmit);
+  
+  function logOrderSubmit(event) {
+    event.preventDefault();
+    console.log("ORDER")
+
+    let orderFirstName = event.target.elements.prenom.value;
+    let orderLastName = event.target.elements.nom.value;
+    let orderAdress = event.target.elements.adresse.value;
+    let orderCity = event.target.elements.ville.value;
+    let orderEmail = event.target.elements.email.value;
+
+    let orderUserInfo = {
+      prenom: orderFirstName,
+      nom: orderLastName,
+      adresse: orderAdress,
+      ville: orderCity,
+      email: orderEmail
+    }
+
+    console.log(orderUserInfo)
+  }
+})
 
 
