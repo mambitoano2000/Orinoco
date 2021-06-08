@@ -223,7 +223,7 @@ document.addEventListener('DOMContentLoaded', function () {
       cartCard.innerHTML += cartCardData;
       // create total price div
       let totalPriceDiv = document.getElementById('totalpricediv');
-      let totalPriceParagraph = `<div class="d-flex justify-content-end"><p>Prix Total: <span class="js-total-price">${totalPrice}</span>€</p></div>`;
+      let totalPriceParagraph = `<div class="d-flex justify-content-end"><p>Prix Total: <span id="ordertotalprice" class="js-total-price">${totalPrice}</span>€</p></div>`;
       totalPriceDiv.innerHTML = totalPriceParagraph;
       updateItemQuantityOnCart();
     }
@@ -324,24 +324,36 @@ function emptyCart() {
 // submit command
 
 document.addEventListener('DOMContentLoaded', function () {
+  
   const orderForm = document.getElementById('orderform');
   orderForm.addEventListener('submit', logOrderSubmit);
   
   function logOrderSubmit(event) {
     event.preventDefault();
     console.log("ORDER")
-
+    let orderRandomNumber = Math.floor(Math.random() * 10000000000000);
     let orderFirstName = event.target.elements.prenom.value;
     let orderLastName = event.target.elements.nom.value;
     let orderAdress = event.target.elements.adresse.value;
     let orderCity = event.target.elements.ville.value;
     let orderEmail = event.target.elements.email.value;
+    let orderProducts = [];
+    let orderTotalPrice = document.getElementById("ordertotalprice").innerText;
+   
+    for (let i = 0; i < localStorage.length; i++) {
+      let key = localStorage.key(i);
+    
+      let value = JSON.parse(localStorage.getItem(key));
+      console.log(key, value)
+      orderProducts.push(value)
+      console.log("List of order product ",orderProducts)
+    }
 
     let orderUserInfo = {
-      prenom: orderFirstName,
-      nom: orderLastName,
-      adresse: orderAdress,
-      ville: orderCity,
+      firstName: orderFirstName,
+      lastName: orderLastName,
+      adress: orderAdress,
+      city: orderCity,
       email: orderEmail
     }
 
