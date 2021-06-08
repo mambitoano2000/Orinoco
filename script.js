@@ -314,7 +314,7 @@ function emptyCart() {
     totalPriceDivEmpty.appendChild(createP);                               
   } else {
     orderDiv = document.getElementById('order')
-    orderDiv.innerHTML = `<form id="orderform"><div><label for="prenom">Prénom</label><br><input id="prenom" type="text" required></input></div><div><label for="nom">Nom</label><br><input id="nom" type="text" required></input></div><div><label for="adresse">Adresse</label><br><input id="adresse" type="text" required></input></div><div><label for="ville">Ville</label><br><input id="ville" type="text" required></input></div><div><label for="email" required>Email</label><br><input id="email" type="email"></input></div><br><button type="submit" id="btnorder" class="btn btn-success">Commander</button></form>`;
+    orderDiv.innerHTML = `<form id="orderform"><div><label for="prenom">Prénom</label><br><input id="prenom" pattern="[A-Za-z]+" type="text" required></input></div><div><label for="nom">Nom</label><br><input id="nom" pattern="[A-Za-z]+" type="text" required></input></div><div><label for="adresse">Adresse</label><br><input id="adresse" type="text" required></input></div><div><label for="ville">Ville</label><br><input id="ville" pattern="[A-Za-z]+" type="text" required></input></div><div><label for="email" required>Email</label><br><input id="email" type="email"></input></div><br><button type="submit" id="btnorder" class="btn btn-success">Commander</button></form>`;
   }
 }
 
@@ -331,14 +331,28 @@ document.addEventListener('DOMContentLoaded', function () {
   function logOrderSubmit(event) {
     event.preventDefault();
     console.log("ORDER")
-    let orderRandomNumber = Math.floor(Math.random() * 10000000000000);
+    //let orderRandomNumber = Math.floor(Math.random() * 10000000000000);
     let orderFirstName = event.target.elements.prenom.value;
     let orderLastName = event.target.elements.nom.value;
     let orderAdress = event.target.elements.adresse.value;
     let orderCity = event.target.elements.ville.value;
     let orderEmail = event.target.elements.email.value;
     let orderProducts = [];
-    let orderTotalPrice = document.getElementById("ordertotalprice").innerText;
+    let orderAllInputs = []
+
+    let orderFirstNameInput = event.target.elements.prenom;
+    let orderLastNameInput = event.target.elements.nom;
+    let orderAdressInput = event.target.elements.adresse;
+    let orderCityInput = event.target.elements.ville;
+    let orderEmailInput = event.target.elements.email;
+
+    orderAllInputs.push(orderFirstNameInput, orderLastNameInput, orderAdressInput, orderCityInput, orderEmailInput)
+
+    console.log("Array of all inputs in event", orderAllInputs)
+
+    validateInputs(orderAllInputs)
+
+    //let orderTotalPrice = document.getElementById("ordertotalprice").innerText;
    
     for (let i = 0; i < localStorage.length; i++) {
       let key = localStorage.key(i);
@@ -360,5 +374,22 @@ document.addEventListener('DOMContentLoaded', function () {
     console.log(orderUserInfo)
   }
 })
+
+// validate Inputs 
+
+function validateInputs(orderAllInputs) {
+  let valid = true;
+  for (let i = 0; i < orderAllInputs.length; i++) {
+
+    valid &= orderAllInputs[i].reportValidity();
+    if(!valid){
+        break;
+    }
+}
+if(valid){
+    alert("Votre commande a été faite.");
+}
+
+  }
 
 
