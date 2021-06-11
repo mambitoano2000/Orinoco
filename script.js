@@ -37,8 +37,7 @@ function fetchProducts(url, optionType, productType, row) {
 // Calling fetch function to catch data and create the 3 html rows of products
 
 fetchProducts('http://localhost:3000/api/furniture/', 'varnish', 'furniture', 'meublesRow');
-fetchProducts('http://localhost:3000/api/teddies/', 'colors', 'teddies', 'teddiesRow');
-fetchProducts('http://localhost:3000/api/cameras', 'lenses', 'cameras', 'camerasRow');
+
 
 
 // product get query string
@@ -190,10 +189,12 @@ function sendProductToLocalStorage(product, selectedProperties) {
     itemAlreadyInCart.quantity = (+itemAlreadyInCart.quantity) + (+itemToSave.quantity);
 
     localStorage.setItem(product._id, JSON.stringify(itemAlreadyInCart));
+    alert("Produit/Produits ajoutés au panier.");
 
 
   } else {
     localStorage.setItem(product._id, JSON.stringify(itemToSave));
+    alert("Produit/Produits ajoutés au panier.");
 
   }
 
@@ -337,7 +338,7 @@ document.addEventListener('DOMContentLoaded', function () {
     let orderAdress = event.target.elements.adresse.value;
     let orderCity = event.target.elements.ville.value;
     let orderEmail = event.target.elements.email.value;
-    let orderProducts = [];
+    let products = [];
     let orderAllInputs = []
 
     let orderFirstNameInput = event.target.elements.prenom;
@@ -359,11 +360,11 @@ document.addEventListener('DOMContentLoaded', function () {
     
       let value = JSON.parse(localStorage.getItem(key));
       console.log(key, value)
-      orderProducts.push(value)
-      console.log("List of order product ",orderProducts)
+      products.push(key)
+      console.log("List of order product ", products)
     }
 
-    let orderUserInfo = {
+    let contact = {
       firstName: orderFirstName,
       lastName: orderLastName,
       adress: orderAdress,
@@ -371,7 +372,7 @@ document.addEventListener('DOMContentLoaded', function () {
       email: orderEmail
     }
 
-    console.log(orderUserInfo)
+    console.log(contact)
   }
 })
 
