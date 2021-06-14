@@ -382,14 +382,14 @@ document.addEventListener('DOMContentLoaded', function () {
 
     console.log(contact)
 
-    if (typeof contact.firstName  === 'string' || typeof contact.lastName  === 'string' || typeof contact.address  === 'string' || typeof contact.city  === 'string' || typeof contact.email  === 'string') {
+    if (typeof contact.firstName === 'string' || typeof contact.lastName === 'string' || typeof contact.address === 'string' || typeof contact.city === 'string' || typeof contact.email === 'string') {
       console.log('Contact is a string');
-      validateInputs(orderAllInputs)
-  }
-  else {
+      validateInputs(orderAllInputs, contact, products)
+    }
+    else {
       console.log('Variable is not a string');
-  }
-   
+    }
+
 
 
     //validateInputs(orderAllInputs)
@@ -398,7 +398,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
 // validate Inputs 
 
-function validateInputs(orderAllInputs) {
+function validateInputs(orderAllInputs, contact, products) {
   let valid = true;
   for (let i = 0; i < orderAllInputs.length; i++) {
 
@@ -408,7 +408,24 @@ function validateInputs(orderAllInputs) {
     }
   }
   if (valid) {
-    alert("Votre commande a été faite.");
+    //alert("Votre commande a été faite.");
+    fetch("http://localhost:3000/api/furniture/order", {
+      method: "POST",
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({ contact, products })
+    })
+      .then(function (res) {
+        if (res.ok) {
+          return res.json();
+        }
+      })
+      .then(function (orderValue) {
+        console.log(orderValue);
+
+      })
 
   }
 
