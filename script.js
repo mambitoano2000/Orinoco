@@ -108,7 +108,7 @@ fetch(`http://localhost:3000/api/${type}/${id}`)
     else if (type === 'furniture') {
       document
         .getElementById(optionType)
-      optionType.textContent = "Vernis:";
+      optionType.textContent = "Choisissez votre vernis:";
       buildInputForOptionsInput(productValue, 'varnish');
 
     }
@@ -116,14 +116,13 @@ fetch(`http://localhost:3000/api/${type}/${id}`)
     // Function to create options input
 
     function buildInputForOptionsInput(value, type) {
-      let optionForm = document.getElementById('optionForm')
+      let optionsSelect = document.getElementById('optionsselect')
       console.log("type: ", type);
       let options = value[type]
       for (let i = 0; i < options.length; i++) {
         console.log("log options: ", value);
-        let inputAndLabel = `<input type="radio" name="productoptions" value="${options[i]}" ${i === 0 ? 'checked' : ''}>
-    <label for="${options[i]}">${options[i]}</label><br>`
-        optionForm.innerHTML += inputAndLabel
+        let selectOption = `<option value="${options[i]}">${options[i]}</option>`
+        optionsSelect.innerHTML += selectOption;
 
       }
     }
@@ -141,17 +140,17 @@ fetch(`http://localhost:3000/api/${type}/${id}`)
       event.preventDefault();
       console.log('SUBMIT!!!')
       console.log(event.target.elements);
-      console.log(event.target.elements.productoptions.value);
+      //console.log(event.target.elements.productoptions.value);
       console.log(event.target.elements.quantity.value);
 
       let productQuantity = event.target.elements.quantity.value;
-      let productOptions = event.target.elements.productoptions.value;
+      //let productOptions = event.target.elements.productoptions.value;
 
 
 
       let selectedProperties = {
         quantity: productQuantity,
-        options: productOptions,
+        //options: productOptions,
       }
       sendProductToLocalStorage(productValue, selectedProperties);
 
