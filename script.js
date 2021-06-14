@@ -398,6 +398,7 @@ document.addEventListener('DOMContentLoaded', function () {
 // validate Inputs 
 
 function validateInputs(orderAllInputs, contact, products) {
+  console.log("products na funcao", products)
   let valid = true;
   for (let i = 0; i < orderAllInputs.length; i++) {
 
@@ -426,8 +427,13 @@ function validateInputs(orderAllInputs, contact, products) {
         //window.location = "commande.html";
 
         orderTotalPrice = document.getElementById("ordertotalprice").innerText;
+        localStorage.clear();
+
+
         let orderValueWithTotal = {orderValue, orderTotalPrice}
-        setInSessionStorage(orderValueWithTotal, orderValue);
+        console.log( "OrDer ValUe wiTh ToTal", orderValueWithTotal)
+        setOrderInLocalStorage(orderValueWithTotal);
+        window.location = "commande.html";
 
       })
 
@@ -435,11 +441,28 @@ function validateInputs(orderAllInputs, contact, products) {
 
 }
 
-function setInSessionStorage(orderValueWithTotal, orderValue) {
+function setOrderInLocalStorage(orderValueWithTotal) {
 
-  sessionStorage.setItem(`${orderValue.orderId}`, JSON.stringify(orderValueWithTotal));
-  let orderInSessionStorage = JSON.parse(sessionStorage.getItem(`${orderValue.orderId}`));
-  console.log('Order in session storage ', orderInSessionStorage)
+  localStorage.setItem("order", JSON.stringify(orderValueWithTotal));
+  //let orderInLocalStorage = JSON.parse(localStorage.getItem("order"));
+ // console.log("Order in local storage", orderInLocalStorage)
+  
 
 
 }
+ 
+// Create order page
+
+document.addEventListener("DOMContentLoaded", function () {
+
+   let orderConfirmation = document.getElementById("orderconfirmation")
+   let orderInLocalStorage = JSON.parse(localStorage.getItem("order"));
+ console.log("Order in local storage", orderInLocalStorage)
+ orderConfirmation.innerHTML = `<p id="orderconfirmationparagraph">Félicitations ${orderInLocalStorage.orderValue.contact.firstName} ${orderInLocalStorage.orderValue.contact.lastName}, vous avez passez une commande avec l'identifiant ${orderInLocalStorage.orderValue.orderId} et un prix total de ${orderInLocalStorage.orderTotalPrice}€.</p>`
+ localStorage.clear();
+
+ 
+ 
+});
+
+
