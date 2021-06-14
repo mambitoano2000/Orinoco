@@ -231,7 +231,7 @@ document.addEventListener('DOMContentLoaded', function () {
   }
   getLocalStorageItems(localStorage);
   emptyCart()
-  
+
 
   // delete product from cart
   document.querySelectorAll('.btn-supprimer-produit').forEach(item => {
@@ -308,11 +308,11 @@ function updateTotalPrice(item, newTotalProductPrice) {
 function emptyCart() {
   if (localStorage.length === 0) {
     totalPriceDivEmpty = document.getElementById('totalpricediv');
-    const createP = document.createElement("P");   
-    createP.classList.add('text-center');                   
-    const createText = document.createTextNode("Votre panier est vide.");    
-    createP.appendChild(createText);                                           
-    totalPriceDivEmpty.appendChild(createP);                               
+    const createP = document.createElement("P");
+    createP.classList.add('text-center');
+    const createText = document.createTextNode("Votre panier est vide.");
+    createP.appendChild(createText);
+    totalPriceDivEmpty.appendChild(createP);
   } else {
     orderDiv = document.getElementById('order')
     orderDiv.innerHTML = `<form id="orderform"><div><label for="prenom">Prénom</label><br><input id="prenom" pattern="[A-Za-z]+" type="text" required></input></div><div><label for="nom">Nom</label><br><input id="nom" pattern="[A-Za-z]+" type="text" required></input></div><div><label for="adresse">Adresse</label><br><input id="adresse" type="text" required></input></div><div><label for="ville">Ville</label><br><input id="ville" pattern="[A-Za-z]+" type="text" required></input></div><div><label for="email" required>Email</label><br><input id="email" type="email"></input></div><br><button type="submit" id="btnorder" class="btn btn-success">Commander</button></form>`;
@@ -325,14 +325,14 @@ function emptyCart() {
 // submit command
 
 document.addEventListener('DOMContentLoaded', function () {
-  
+
   const orderForm = document.getElementById('orderform');
   orderForm.addEventListener('submit', logOrderSubmit);
-  
+
   function logOrderSubmit(event) {
     event.preventDefault();
     console.log("ORDER")
-    //let orderRandomNumber = Math.floor(Math.random() * 10000000000000);
+
     let orderFirstName = event.target.elements.prenom.value;
     let orderLastName = event.target.elements.nom.value;
     let orderAdress = event.target.elements.adresse.value;
@@ -351,28 +351,48 @@ document.addEventListener('DOMContentLoaded', function () {
 
     console.log("Array of all inputs in event", orderAllInputs)
 
-    validateInputs(orderAllInputs)
+
 
     //let orderTotalPrice = document.getElementById("ordertotalprice").innerText;
-   
+
     for (let i = 0; i < localStorage.length; i++) {
       let key = localStorage.key(i);
-    
+
       let value = JSON.parse(localStorage.getItem(key));
       console.log(key, value)
-      products.push(key)
+
+      if (typeof key === 'string') {
+        console.log('Variable is a string');
+        products.push(key)
+      }
+      else {
+        console.log('Variable is not a string');
+      }
+
       console.log("List of order product ", products)
     }
 
     let contact = {
       firstName: orderFirstName,
       lastName: orderLastName,
-      adress: orderAdress,
+      address: orderAdress,
       city: orderCity,
       email: orderEmail
     }
 
     console.log(contact)
+
+    if (typeof contact.firstName  === 'string' || typeof contact.lastName  === 'string' || typeof contact.address  === 'string' || typeof contact.city  === 'string' || typeof contact.email  === 'string') {
+      console.log('Contact is a string');
+      validateInputs(orderAllInputs)
+  }
+  else {
+      console.log('Variable is not a string');
+  }
+   
+
+
+    //validateInputs(orderAllInputs)
   }
 })
 
@@ -383,14 +403,15 @@ function validateInputs(orderAllInputs) {
   for (let i = 0; i < orderAllInputs.length; i++) {
 
     valid &= orderAllInputs[i].reportValidity();
-    if(!valid){
-        break;
+    if (!valid) {
+      break;
     }
-}
-if(valid){
+  }
+  if (valid) {
     alert("Votre commande a été faite.");
-}
 
   }
+
+}
 
 
