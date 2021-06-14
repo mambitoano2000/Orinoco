@@ -423,6 +423,11 @@ function validateInputs(orderAllInputs, contact, products) {
       })
       .then(function (orderValue) {
         console.log(orderValue);
+        //window.location = "commande.html";
+
+        orderTotalPrice = document.getElementById("ordertotalprice").innerText;
+        let orderValueWithTotal = {orderValue, orderTotalPrice}
+        setInSessionStorage(orderValueWithTotal, orderValue);
 
       })
 
@@ -430,4 +435,11 @@ function validateInputs(orderAllInputs, contact, products) {
 
 }
 
+function setInSessionStorage(orderValueWithTotal, orderValue) {
 
+  sessionStorage.setItem(`${orderValue.orderId}`, JSON.stringify(orderValueWithTotal));
+  let orderInSessionStorage = JSON.parse(sessionStorage.getItem(`${orderValue.orderId}`));
+  console.log('Order in session storage ', orderInSessionStorage)
+
+
+}
