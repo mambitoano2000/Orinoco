@@ -130,8 +130,8 @@ fetch(`http://localhost:3000/api/${type}/${id}`)
     // Create quantity and submit btn
     document
       .getElementById(optionForm);
-    let quantityAndSubmitBtns = `<label for="quantity">Quantité:</label>
-           <input type="number" id="productQuantity" name="quantity"  value="1" min="1"  placeholder="1"><br><div class="text-center"><button type="submit" id="addToCart" class="btn btn-primary mt-3">Ajouter au panier</button></div>`;
+    let quantityAndSubmitBtns = `<label  for="quantity">Quantité:</label>
+           <input type="number" id="productQuantity" name="quantity" required  value="1" min="1"  placeholder="1"><br><div class="text-center"><button type="submit" id="addToCart" class="btn btn-primary mt-5">Ajouter au panier</button></div>`;
     optionForm.innerHTML += quantityAndSubmitBtns;
 
 
@@ -217,7 +217,7 @@ document.addEventListener('DOMContentLoaded', function () {
       console.log(totalPrice);
       // create cart div
       let cartCard = document.getElementById('panier');
-      let cartCardData = `<div class=" col m-3 d-flex flex-column flex-md-row justify-content-md-between align-items-center js-product" id="${value._id}"><img src="${value.imageUrl}" class="img-products"> <p>${value.name}</p> <form><label for="quantity">Quantité:</label>
+      let cartCardData = `<div class=" col m-3 d-flex flex-column flex-md-row justify-content-md-between align-items-center js-product" id="${value._id}"><img src="${value.imageUrl}" class="img-products mb-3"> <p>${value.name}</p> <form><label for="quantity">Quantité:</label>
       <input type="number"  name="quantity" class="quantityInput" value="${value.quantity}" data-productdataid="${value._id}" min="1"  placeholder="${value.quantity}"></form> <p class="totalpriceparagraph" data-productdataparagraphid="${value._id}">Prix: <span class="js-product-total-price">${totalSingleProductPrice}</span>€</p>      <button type="button" data-productdataid="${value._id}"class="btn btn-labeled btn-danger btn-supprimer-produit">
       Effacer</button> </div>`;
       cartCard.innerHTML += cartCardData;
