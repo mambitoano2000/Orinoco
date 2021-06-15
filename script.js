@@ -6,7 +6,7 @@ function buildColsForProductType(value, optionType, productType, row) {
     let col = `<div class="col-sm-12 col-lg-6 mb-4">
     <a href="/product.html?option=${optionType}&type=${productType}&id=${value[i]._id}"><div class="card h-100">
                          <div class="card-body">
-                         <img src="${value[i].imageUrl}" class="img-products card-img-top">  
+                         <img src="${value[i].imageUrl}" class="card-img-top">  
                         <h5 class="card-title" >${value[i].name}</h5>
                        </div>
                        </div></a>
@@ -131,7 +131,7 @@ fetch(`http://localhost:3000/api/${type}/${id}`)
     document
       .getElementById(optionForm);
     let quantityAndSubmitBtns = `<label for="quantity">Quantité:</label>
-           <input type="number" id="productQuantity" name="quantity"  value="1" min="1"  placeholder="1"><br><button type="submit" id="addToCart" class="btn btn-primary mt-3">Ajouter au panier</button>`;
+           <input type="number" id="productQuantity" name="quantity"  value="1" min="1"  placeholder="1"><br><div class="text-center"><button type="submit" id="addToCart" class="btn btn-primary mt-3">Ajouter au panier</button></div>`;
     optionForm.innerHTML += quantityAndSubmitBtns;
 
 
@@ -217,13 +217,13 @@ document.addEventListener('DOMContentLoaded', function () {
       console.log(totalPrice);
       // create cart div
       let cartCard = document.getElementById('panier');
-      let cartCardData = `<div class="m-3 d-flex align-items-center justify-content-between js-product" id="${value._id}"><img src="${value.imageUrl}" class="img-fluid"> <p>${value.name}</p> <form><label for="quantity">Quantité:</label>
+      let cartCardData = `<div class=" col m-3 d-flex flex-column flex-md-row justify-content-md-between align-items-center js-product" id="${value._id}"><img src="${value.imageUrl}" class="img-products"> <p>${value.name}</p> <form><label for="quantity">Quantité:</label>
       <input type="number"  name="quantity" class="quantityInput" value="${value.quantity}" data-productdataid="${value._id}" min="1"  placeholder="${value.quantity}"></form> <p class="totalpriceparagraph" data-productdataparagraphid="${value._id}">Prix: <span class="js-product-total-price">${totalSingleProductPrice}</span>€</p>      <button type="button" data-productdataid="${value._id}"class="btn btn-labeled btn-danger btn-supprimer-produit">
       Effacer</button> </div>`;
       cartCard.innerHTML += cartCardData;
       // create total price div
       let totalPriceDiv = document.getElementById('totalpricediv');
-      let totalPriceParagraph = `<div class="d-flex justify-content-end"><p>Prix Total: <span id="ordertotalprice" class="js-total-price">${totalPrice}</span>€</p></div>`;
+      let totalPriceParagraph = `<div class="d-flex  justify-content-center justify-content-md-end"><p>Prix Total: <span id="ordertotalprice" class="js-total-price">${totalPrice}</span>€</p></div>`;
       totalPriceDiv.innerHTML = totalPriceParagraph;
       updateItemQuantityOnCart();
     }

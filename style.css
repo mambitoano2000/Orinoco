@@ -50,11 +50,11 @@
  
 /* Images */
 
-/*.img-products {
-  height: 400px;
-  width: 100%;
+.img-products {
+  height: 200px;
+  width: 200px;
   object-fit: cover;
-}*/
+}
 
 /* Links */
 
