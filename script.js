@@ -3,10 +3,10 @@ function buildColsForProductType(value, optionType, productType, row) {
   let cols = document.getElementById(row)
 
   for (let i = 0; i < value.length; i++) {
-    let col = `<div class="col">
-    <a href="/product.html?option=${optionType}&type=${productType}&id=${value[i]._id}"><div class="card">
+    let col = `<div class="col-sm-12 col-lg-6 mb-4">
+    <a href="/product.html?option=${optionType}&type=${productType}&id=${value[i]._id}"><div class="card h-100">
                          <div class="card-body">
-                         <img src="${value[i].imageUrl}" class="img-fluid">  
+                         <img src="${value[i].imageUrl}" class="img-products card-img-top">  
                         <h5 class="card-title" >${value[i].name}</h5>
                        </div>
                        </div></a>
