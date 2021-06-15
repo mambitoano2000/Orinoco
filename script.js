@@ -455,14 +455,22 @@ function setOrderInLocalStorage(orderValueWithTotal) {
 
 document.addEventListener("DOMContentLoaded", function () {
 
-   let orderConfirmation = document.getElementById("orderconfirmation")
-   let orderInLocalStorage = JSON.parse(localStorage.getItem("order"));
- console.log("Order in local storage", orderInLocalStorage)
- orderConfirmation.innerHTML = `<p id="orderconfirmationparagraph">Félicitations ${orderInLocalStorage.orderValue.contact.firstName} ${orderInLocalStorage.orderValue.contact.lastName}, vous avez passez une commande avec l'identifiant ${orderInLocalStorage.orderValue.orderId} et un prix total de ${orderInLocalStorage.orderTotalPrice}€.</p>`
- localStorage.clear();
+  if(document.querySelector('.commandepage') && localStorage.getItem("order") == null) {
+    window.location = "index.html";
+  } else {
+    let orderConfirmation = document.getElementById("orderconfirmation")
+    let orderInLocalStorage = JSON.parse(localStorage.getItem("order"));
+  console.log("Order in local storage", orderInLocalStorage)
+  orderConfirmation.innerHTML = `<p id="orderconfirmationparagraph">Félicitations ${orderInLocalStorage.orderValue.contact.firstName} ${orderInLocalStorage.orderValue.contact.lastName}, vous avez passez une commande avec l'identifiant ${orderInLocalStorage.orderValue.orderId} et un prix total de ${orderInLocalStorage.orderTotalPrice}€.</p>`
+  localStorage.clear();
+ 
+  }
+
 
  
  
 });
+
+
 
 
