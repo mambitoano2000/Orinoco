@@ -217,8 +217,8 @@ document.addEventListener('DOMContentLoaded', function () {
       console.log(totalPrice);
       // create cart div
       let cartCard = document.getElementById('panier');
-      let cartCardData = `<div class=" col m-3 d-flex flex-column flex-md-row justify-content-md-between align-items-center js-product" id="${value._id}"><img src="${value.imageUrl}" class="img-products mb-3"> <p>${value.name}</p> <form><label for="quantity">Quantité:</label>
-      <input type="number"  name="quantity" class="quantityInput" value="${value.quantity}" data-productdataid="${value._id}" min="1"  placeholder="${value.quantity}"></form> <p class="totalpriceparagraph" data-productdataparagraphid="${value._id}">Prix: <span class="js-product-total-price">${totalSingleProductPrice}</span>€</p>      <button type="button" data-productdataid="${value._id}"class="btn btn-labeled btn-danger btn-supprimer-produit">
+      let cartCardData = `<div class=" col m-3 d-flex flex-column flex-md-row justify-content-md-between align-items-center js-product" id="${value._id}"><img src="${value.imageUrl}" class="img-products mb-3"> <p>${value.name}</p> <form id="orderFormQuantity"><label for="quantity">Quantité:</label>
+      <input type="number"  name="quantity" class="quantityInput" value="${value.quantity}"  required data-productdataid="${value._id}" min="1"  placeholder="${value.quantity}"></form> <p class="totalpriceparagraph" data-productdataparagraphid="${value._id}">Prix: <span class="js-product-total-price">${totalSingleProductPrice}</span>€</p>      <button type="button" data-productdataid="${value._id}"class="btn btn-labeled btn-danger btn-supprimer-produit">
       Effacer</button> </div>`;
       cartCard.innerHTML += cartCardData;
       // create total price div
@@ -314,7 +314,7 @@ function emptyCart() {
     totalPriceDivEmpty.appendChild(createP);
   } else {
     orderDiv = document.getElementById('order')
-    orderDiv.innerHTML = `<form id="orderform"><div><label for="prenom">Prénom</label><br><input id="prenom" pattern="[A-Za-z]+" type="text" required></input></div><div><label for="nom">Nom</label><br><input id="nom" pattern="[A-Za-z]+" type="text" required></input></div><div><label for="adresse">Adresse</label><br><input id="adresse" type="text" required></input></div><div><label for="ville">Ville</label><br><input id="ville" pattern="[A-Za-z]+" type="text" required></input></div><div><label for="email" required>Email</label><br><input id="email" type="email"></input></div><br><button type="submit" id="btnorder" class="btn btn-success">Commander</button></form>`;
+    orderDiv.innerHTML = `<div><label for="prenom">Prénom</label><br><input id="prenom" pattern="[A-Za-z]+" type="text" required></input></div><div><label for="nom">Nom</label><br><input id="nom" pattern="[A-Za-z]+" type="text" required></input></div><div><label for="adresse">Adresse</label><br><input id="adresse" type="text" required></input></div><div><label for="ville">Ville</label><br><input id="ville" pattern="[A-Za-z]+" type="text" required></input></div><div><label for="email" required>Email</label><br><input id="email" type="email"></input></div><br><button type="submit" id="btnorder" class="btn btn-success">Commander</button>`;
   }
 }
 
@@ -326,7 +326,9 @@ function emptyCart() {
 document.addEventListener('DOMContentLoaded', function () {
 
   const orderForm = document.getElementById('orderform');
+  
   orderForm.addEventListener('submit', logOrderSubmit);
+ 
 
   function logOrderSubmit(event) {
     event.preventDefault();
@@ -391,7 +393,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
 
 
-    //validateInputs(orderAllInputs)
+    
   }
 })
 
