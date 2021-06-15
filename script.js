@@ -461,7 +461,7 @@ document.addEventListener("DOMContentLoaded", function () {
     let orderConfirmation = document.getElementById("orderconfirmation")
     let orderInLocalStorage = JSON.parse(localStorage.getItem("order"));
   console.log("Order in local storage", orderInLocalStorage)
-  orderConfirmation.innerHTML = `<p id="orderconfirmationparagraph">Félicitations ${orderInLocalStorage.orderValue.contact.firstName} ${orderInLocalStorage.orderValue.contact.lastName}, vous avez passez une commande avec l'identifiant ${orderInLocalStorage.orderValue.orderId} et un prix total de ${orderInLocalStorage.orderTotalPrice}€.</p>`
+  orderConfirmation.innerHTML = `<p id="orderconfirmationparagraph">Félicitations ${orderInLocalStorage.orderValue.contact.firstName} ${orderInLocalStorage.orderValue.contact.lastName}, vous avez passez une commande avec l'identifiant ${orderInLocalStorage.orderValue.orderId} et un prix total de ${orderInLocalStorage.orderTotalPrice}€.</p><div class="mt-5"><a href="index.html"><button type="button" class="btn btn-success">Retour à l'accueil</button></a></div>`
   localStorage.clear();
  
   }
