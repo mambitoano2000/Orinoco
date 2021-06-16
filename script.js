@@ -306,12 +306,14 @@ function updateTotalPrice(item, newTotalProductPrice) {
 // empty cart message
 function emptyCart() {
   if (localStorage.length === 0) {
-    totalPriceDivEmpty = document.getElementById('totalpricediv');
-    const createP = document.createElement("P");
+   totalPriceDivEmpty = document.getElementById('totalpricediv');
+   totalPriceDivEmpty.innerHTML = `<div class="text-center emptycartmargin"><p>Votre panier est vide.</p><a href="index.html"><button type="button" class="btn btn-success m-5">Retour à l'accueil</button></a></div>`;
+     /*const createP = document.createElement("P");
     createP.classList.add('text-center');
+    createP.classList.add('emptycartmargin');
     const createText = document.createTextNode("Votre panier est vide.");
     createP.appendChild(createText);
-    totalPriceDivEmpty.appendChild(createP);
+    totalPriceDivEmpty.appendChild(createP);*/
   } else {
     orderDiv = document.getElementById('order')
     orderDiv.innerHTML = `<div class="d-flex flex-column px-md-5"><label  for="prenom">Prénom</label><br><input  id="prenom" pattern="[A-Za-z]+" type="text" required></input></div><div class="d-flex flex-column px-md-5"><label for="nom">Nom</label><br><input id="nom" pattern="[A-Za-z]+" type="text" required></input></div><div class="d-flex flex-column px-md-5"><label for="adresse">Adresse</label><br><input id="adresse" type="text" required></input></div><div class="d-flex flex-column px-md-5"><label for="ville">Ville</label><br><input id="ville" pattern="[A-Za-z]+" type="text" required></input></div><div class="d-flex flex-column px-md-5"><label for="email" required>Email</label><br><input id="email" type="email"></input></div><br><div class="text-center"><button type="submit" id="btnorder" class="btn btn-success">Commander</button></div>`;
@@ -463,7 +465,7 @@ document.addEventListener("DOMContentLoaded", function () {
     let orderConfirmation = document.getElementById("orderconfirmation")
     let orderInLocalStorage = JSON.parse(localStorage.getItem("order"));
   console.log("Order in local storage", orderInLocalStorage)
-  orderConfirmation.innerHTML = `<p id="orderconfirmationparagraph">Félicitations ${orderInLocalStorage.orderValue.contact.firstName} ${orderInLocalStorage.orderValue.contact.lastName}, vous avez passez une commande avec l'identifiant ${orderInLocalStorage.orderValue.orderId} et un prix total de ${orderInLocalStorage.orderTotalPrice}€.</p><div class="mt-5"><a href="index.html"><button type="button" class="btn btn-success">Retour à l'accueil</button></a></div>`
+  orderConfirmation.innerHTML = `<p class="m-5" id="orderconfirmationparagraph">Félicitations <strong>${orderInLocalStorage.orderValue.contact.firstName} ${orderInLocalStorage.orderValue.contact.lastName}</strong>, vous avez passez une commande avec l'identifiant ${orderInLocalStorage.orderValue.orderId} et un prix total de ${orderInLocalStorage.orderTotalPrice}€.</p><div class="mt-5 text-center orderconfirmationmargin"><a href="index.html"><button type="button" class="btn btn-success m-5">Retour à l'accueil</button></a></div>`
   localStorage.clear();
  
   }

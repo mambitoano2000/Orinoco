@@ -62,3 +62,14 @@ a {
   text-decoration: none;
   color: black;
 }
+
+
+/* Margin classes */
+
+.orderconfirmationmargin {
+  margin-bottom: 300px;
+}
+
+.emptycartmargin {
+  margin-bottom: 320px;
+}
