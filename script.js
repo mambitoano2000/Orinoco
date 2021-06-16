@@ -189,11 +189,13 @@ function sendProductToLocalStorage(product, selectedProperties) {
 
     localStorage.setItem(product._id, JSON.stringify(itemAlreadyInCart));
     alert("Produit/Produits ajoutés au panier.");
+    window.location = "index.html";
 
 
   } else {
     localStorage.setItem(product._id, JSON.stringify(itemToSave));
     alert("Produit/Produits ajoutés au panier.");
+    window.location = "index.html";
 
   }
 
