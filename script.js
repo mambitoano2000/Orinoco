@@ -25,8 +25,9 @@ function buildColsForProducts(value, row) {
     <a href="/product.html?id=${value[i]._id}"><div class="card h-100">
                          <div class="card-body">
                          <img src="${value[i].imageUrl}" class="card-img-top">  
-                        <h5 class="card-title" >${value[i].name}</h5>
+                        <div class="d-flex justify-content-between mt-2" ><h5>${value[i].name}</h5> <span>${value[i].price}€</span></h5>
                        </div>
+                       <p>${value[i].description}</p>
                        </div></a>
                        </div>`
     cols.innerHTML += col
@@ -66,7 +67,7 @@ fetch(`http://localhost:3000/api/furniture/${id}`)
   })
   .then(function (productValue) {
     console.log(productValue);
-
+    // creates product data in html
     document
       .getElementById(productName)
     productName.textContent = `${productValue.name}`;
@@ -81,11 +82,11 @@ fetch(`http://localhost:3000/api/furniture/${id}`)
       .getElementById(productImage)
     productImage.src = productValue.imageUrl;
 
-  
 
-      buildInputForOptionsInput(productValue, 'varnish');
+    //calling function to create options in html
+    buildInputForOptionsInput(productValue, 'varnish');
 
-   
+
 
     // Function to create options input
 
@@ -108,30 +109,27 @@ fetch(`http://localhost:3000/api/furniture/${id}`)
            <input type="number" id="productQuantity" name="quantity" required  value="1" min="1"  placeholder="1"><br><div class="text-center"><button type="submit" id="addToCart" class="btn btn-primary mt-5">Ajouter au panier</button></div>`;
     optionForm.innerHTML += quantityAndSubmitBtns;
 
+    //defines where is the event to get product page submit btn and calls the function to get it
+    const form = document.getElementById('optionForm');
+    form.addEventListener('submit', logSubmit);
 
-
+    // gets the data from product page submit btn
     function logSubmit(event) {
       event.preventDefault();
       console.log('SUBMIT!!!')
       console.log(event.target.elements);
-      //console.log(event.target.elements.productoptions.value);
       console.log(event.target.elements.quantity.value);
 
       let productQuantity = event.target.elements.quantity.value;
-      //let productOptions = event.target.elements.productoptions.value;
-
-
 
       let selectedProperties = {
-        quantity: productQuantity,
-        //options: productOptions,
+        quantity: productQuantity
       }
       sendProductToLocalStorage(productValue, selectedProperties);
 
     }
 
-    const form = document.getElementById('optionForm');
-    form.addEventListener('submit', logSubmit);
+
 
 
   })
