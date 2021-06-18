@@ -191,9 +191,9 @@ document.addEventListener('DOMContentLoaded', function () {
       console.log(totalPrice);
       // create cart div
       let cartCard = document.getElementById('panier');
-      let cartCardData = `<div class=" col m-3 d-flex flex-column flex-md-row justify-content-md-between align-items-center js-product" id="${value._id}"><img src="${value.imageUrl}" class="img-products m-3"> <p class="m-0">${value.name}</p> <form id="orderFormQuantity"><label  class="m-3" for="quantity">Quantité:</label>
-      <input type="number"  name="quantity" class="quantityInput m-3" value="${value.quantity}"  required data-productdataid="${value._id}" min="1"  placeholder="${value.quantity}"></form> <p class="totalpriceparagraph" data-productdataparagraphid="${value._id}">Prix: <span class="js-product-total-price">${totalSingleProductPrice}</span>€</p>      <button type="button" data-productdataid="${value._id}"class="btn btn-labeled btn-danger btn-supprimer-produit m-3">
-      Effacer</button> </div>`;
+      let cartCardData = `<div class="row js-product text-center" id="${value._id}"><div class="col-12 col-sm-3"><img src="${value.imageUrl}" class="img-fluid"></div> <div class="col"> <p class="">${value.name}</p></div> <div class="col"><form id="orderFormQuantity"><label  class="" for="quantity">Quantité:</label>
+      <input type="number"  name="quantity" class="quantityInput" value="${value.quantity}"  required data-productdataid="${value._id}" min="1"  placeholder="${value.quantity}" style="width: 50px"></form></div> <div class="col"> <p class="totalpriceparagraph" data-productdataparagraphid="${value._id}">Prix: <span class="js-product-total-price">${totalSingleProductPrice}</span>€</p></div><button type="button" data-productdataid="${value._id}"class="btn btn-labeled btn-danger btn-supprimer-produit">
+      Effacer</button></div>`;
       cartCard.innerHTML += cartCardData;
       // create total price div
       let totalPriceDiv = document.getElementById('totalpricediv');
@@ -290,7 +290,7 @@ function emptyCart() {
    totalPriceDivEmpty.appendChild(createP);*/
   } else {
     orderDiv = document.getElementById('order')
-    orderDiv.innerHTML = `<div class="d-flex flex-column px-md-5"><label  for="prenom">Prénom</label><br><input  id="prenom" pattern="[A-Za-z]+" type="text" required></input></div><div class="d-flex flex-column px-md-5"><label for="nom">Nom</label><br><input id="nom" pattern="[A-Za-z]+" type="text" required></input></div><div class="d-flex flex-column px-md-5"><label for="adresse">Adresse</label><br><input id="adresse" type="text" required></input></div><div class="d-flex flex-column px-md-5"><label for="ville">Ville</label><br><input id="ville" pattern="[A-Za-z]+" type="text" required></input></div><div class="d-flex flex-column px-md-5"><label for="email">Email</label><br><input id="email" type="email" required></input></div><br><div class="text-center"><button type="submit" id="btnorder" class="btn btn-success">Commander</button></div>`;
+    orderDiv.innerHTML = `<div class="d-flex flex-column px-md-5 mb-3"><label class="mb-2" for="prenom">Prénom</label><input  id="prenom" pattern="[A-Za-z]+" type="text" required></input></div><div class="mb-3 d-flex flex-column px-md-5"><label class="mb-2" for="nom">Nom</label><input id="nom" pattern="[A-Za-z]+" type="text" required></input></div><div class="mb-3 d-flex flex-column px-md-5"><label class="mb-2" for="adresse">Adresse</label><input id="adresse" type="text" required></input></div><div class="mb-3 d-flex flex-column px-md-5"><label class="mb-2" for="ville">Ville</label><input id="ville" pattern="[A-Za-z]+" type="text" required></input></div><div class=" mb-3 d-flex flex-column px-md-5"><label class="mb-2" for="email">Email</label><input id="email" type="email" required></input></div><div class="text-center"><button type="submit" id="btnorder" class="btn btn-success mt-3">Commander</button></div>`;
   }
 }
 
