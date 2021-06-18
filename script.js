@@ -1,5 +1,5 @@
 // Get API products
-function fetchProducts(url, optionType, row) {
+function fetchProducts(url, row) {
   fetch(url)
     .then(function (res) {
       if (res.ok) {
@@ -8,7 +8,7 @@ function fetchProducts(url, optionType, row) {
     })
     .then(function (value) {
       console.log(value);
-      buildColsForProducts(value, optionType, row);
+      buildColsForProducts(value, row);
 
     })
     .catch(function (err) {
@@ -17,12 +17,12 @@ function fetchProducts(url, optionType, row) {
 }
 
 // Build  columns function
-function buildColsForProducts(value, optionType, row) {
+function buildColsForProducts(value, row) {
   let cols = document.getElementById(row)
 
   for (let i = 0; i < value.length; i++) {
     let col = `<div class="col-sm-12 col-lg-6 mb-4">
-    <a href="/product.html?option=${optionType}&id=${value[i]._id}"><div class="card h-100">
+    <a href="/product.html?id=${value[i]._id}"><div class="card h-100">
                          <div class="card-body">
                          <img src="${value[i].imageUrl}" class="card-img-top">  
                         <h5 class="card-title" >${value[i].name}</h5>
@@ -36,7 +36,7 @@ function buildColsForProducts(value, optionType, row) {
 
 // Calling fetch function to catch data and create the row of products
 
-fetchProducts('http://localhost:3000/api/furniture/', 'varnish', 'meublesRow');
+fetchProducts('http://localhost:3000/api/furniture/', 'meublesRow');
 
 
 
@@ -48,11 +48,6 @@ console.log(queryProductUrlData);
 // product extract query string
 
 const params = new URLSearchParams(queryProductUrlData);
-
-const option = params.get("option");
-console.log(option);
-
-
 const id = params.get("id");
 console.log(id);
 
