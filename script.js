@@ -88,27 +88,13 @@ fetch(`http://localhost:3000/api/${type}/${id}`)
       .getElementById(productImage)
     productImage.src = productValue.imageUrl;
 
-    if (type === 'teddies') {
-      document
+  
+
+
+     if (type === 'furniture') {
+  /*    document
         .getElementById(optionType)
-      optionType.textContent = "Couleurs:";
-      buildInputForOptionsInput(productValue, 'colors');
-
-    }
-
-    else if (type === 'cameras') {
-      document
-        .getElementById(optionType)
-      optionType.textContent = "Lentilles:";
-      buildInputForOptionsInput(productValue, 'lenses');
-
-    }
-
-
-    else if (type === 'furniture') {
-      document
-        .getElementById(optionType)
-      optionType.textContent = "Choisissez votre vernis:";
+      optionType.textContent = "Choisissez votre vernis:";*/
       buildInputForOptionsInput(productValue, 'varnish');
 
     }
@@ -308,17 +294,17 @@ function updateTotalPrice(item, newTotalProductPrice) {
 // empty cart message
 function emptyCart() {
   if (localStorage.length === 0) {
-   totalPriceDivEmpty = document.getElementById('totalpricediv');
-   totalPriceDivEmpty.innerHTML = `<div class="text-center emptycartmargin"><p>Votre panier est vide.</p><a href="index.html"><button type="button" class="btn btn-success m-5">Retour à l'accueil</button></a></div>`;
-     /*const createP = document.createElement("P");
-    createP.classList.add('text-center');
-    createP.classList.add('emptycartmargin');
-    const createText = document.createTextNode("Votre panier est vide.");
-    createP.appendChild(createText);
-    totalPriceDivEmpty.appendChild(createP);*/
+    totalPriceDivEmpty = document.getElementById('totalpricediv');
+    totalPriceDivEmpty.innerHTML = `<div class="text-center emptycartmargin"><p>Votre panier est vide.</p><a href="index.html"><button type="button" class="btn btn-success m-5">Retour à l'accueil</button></a></div>`;
+    /*const createP = document.createElement("P");
+   createP.classList.add('text-center');
+   createP.classList.add('emptycartmargin');
+   const createText = document.createTextNode("Votre panier est vide.");
+   createP.appendChild(createText);
+   totalPriceDivEmpty.appendChild(createP);*/
   } else {
     orderDiv = document.getElementById('order')
-    orderDiv.innerHTML = `<div class="d-flex flex-column px-md-5"><label  for="prenom">Prénom</label><br><input  id="prenom" pattern="[A-Za-z]+" type="text" required></input></div><div class="d-flex flex-column px-md-5"><label for="nom">Nom</label><br><input id="nom" pattern="[A-Za-z]+" type="text" required></input></div><div class="d-flex flex-column px-md-5"><label for="adresse">Adresse</label><br><input id="adresse" type="text" required></input></div><div class="d-flex flex-column px-md-5"><label for="ville">Ville</label><br><input id="ville" pattern="[A-Za-z]+" type="text" required></input></div><div class="d-flex flex-column px-md-5"><label for="email" required>Email</label><br><input id="email" type="email"></input></div><br><div class="text-center"><button type="submit" id="btnorder" class="btn btn-success">Commander</button></div>`;
+    orderDiv.innerHTML = `<div class="d-flex flex-column px-md-5"><label  for="prenom">Prénom</label><br><input  id="prenom" pattern="[A-Za-z]+" type="text" required></input></div><div class="d-flex flex-column px-md-5"><label for="nom">Nom</label><br><input id="nom" pattern="[A-Za-z]+" type="text" required></input></div><div class="d-flex flex-column px-md-5"><label for="adresse">Adresse</label><br><input id="adresse" type="text" required></input></div><div class="d-flex flex-column px-md-5"><label for="ville">Ville</label><br><input id="ville" pattern="[A-Za-z]+" type="text" required></input></div><div class="d-flex flex-column px-md-5"><label for="email">Email</label><br><input id="email" type="email" required></input></div><br><div class="text-center"><button type="submit" id="btnorder" class="btn btn-success">Commander</button></div>`;
   }
 }
 
@@ -330,9 +316,9 @@ function emptyCart() {
 document.addEventListener('DOMContentLoaded', function () {
 
   const orderForm = document.getElementById('orderform');
-  
+
   orderForm.addEventListener('submit', logOrderSubmit);
- 
+
 
   function logOrderSubmit(event) {
     event.preventDefault();
@@ -397,7 +383,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
 
 
-    
+
   }
 })
 
@@ -436,8 +422,8 @@ function validateInputs(orderAllInputs, contact, products) {
         localStorage.clear();
 
 
-        let orderValueWithTotal = {orderValue, orderTotalPrice}
-        console.log( "OrDer ValUe wiTh ToTal", orderValueWithTotal)
+        let orderValueWithTotal = { orderValue, orderTotalPrice }
+        console.log("OrDer ValUe wiTh ToTal", orderValueWithTotal)
         setOrderInLocalStorage(orderValueWithTotal);
         window.location = "commande.html";
 
@@ -451,30 +437,30 @@ function setOrderInLocalStorage(orderValueWithTotal) {
 
   localStorage.setItem("order", JSON.stringify(orderValueWithTotal));
   //let orderInLocalStorage = JSON.parse(localStorage.getItem("order"));
- // console.log("Order in local storage", orderInLocalStorage)
-  
+  // console.log("Order in local storage", orderInLocalStorage)
+
 
 
 }
- 
+
 // Create order page
 
 document.addEventListener("DOMContentLoaded", function () {
 
-  if(document.querySelector('.commandepage') && localStorage.getItem("order") == null) {
+  if (document.querySelector('.commandepage') && localStorage.getItem("order") == null) {
     window.location = "index.html";
   } else {
     let orderConfirmation = document.getElementById("orderconfirmation")
     let orderInLocalStorage = JSON.parse(localStorage.getItem("order"));
-  console.log("Order in local storage", orderInLocalStorage)
-  orderConfirmation.innerHTML = `<p class="m-5" id="orderconfirmationparagraph">Félicitations <strong>${orderInLocalStorage.orderValue.contact.firstName} ${orderInLocalStorage.orderValue.contact.lastName}</strong>, vous avez passez une commande avec l'identifiant ${orderInLocalStorage.orderValue.orderId} et un prix total de ${orderInLocalStorage.orderTotalPrice}€.</p><div class="mt-5 text-center orderconfirmationmargin"><a href="index.html"><button type="button" class="btn btn-success m-5">Retour à l'accueil</button></a></div>`
-  localStorage.clear();
- 
+    console.log("Order in local storage", orderInLocalStorage)
+    orderConfirmation.innerHTML = `<p class="m-5" id="orderconfirmationparagraph">Félicitations <strong>${orderInLocalStorage.orderValue.contact.firstName} ${orderInLocalStorage.orderValue.contact.lastName}</strong>, vous avez passez une commande avec l'identifiant ${orderInLocalStorage.orderValue.orderId} et un prix total de ${orderInLocalStorage.orderTotalPrice}€.</p><div class="mt-5 text-center orderconfirmationmargin"><a href="index.html"><button type="button" class="btn btn-success m-5">Retour à l'accueil</button></a></div>`
+    localStorage.clear();
+
   }
 
 
- 
- 
+
+
 });
 
 
