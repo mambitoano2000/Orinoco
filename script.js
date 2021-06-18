@@ -116,7 +116,7 @@ fetch(`http://localhost:3000/api/${type}/${id}`)
     // Create quantity and submit btn
     document
       .getElementById(optionForm);
-    let quantityAndSubmitBtns = `<label  for="quantity">Quantité:</label>
+    let quantityAndSubmitBtns = `<label  class="me-2" for="quantity">Quantité:</label>
            <input type="number" id="productQuantity" name="quantity" required  value="1" min="1"  placeholder="1"><br><div class="text-center"><button type="submit" id="addToCart" class="btn btn-primary mt-5">Ajouter au panier</button></div>`;
     optionForm.innerHTML += quantityAndSubmitBtns;
 
