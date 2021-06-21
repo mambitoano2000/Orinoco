@@ -191,9 +191,9 @@ document.addEventListener('DOMContentLoaded', function () {
       console.log(totalPrice);
       // create cart div
       let cartCard = document.getElementById('panier');
-      let cartCardData = `<div class="row js-product text-center" id="${value._id}"><div class="col-12 col-sm-3"><img src="${value.imageUrl}" class="img-fluid"></div> <div class="col"> <p class="">${value.name}</p></div> <div class="col"><form id="orderFormQuantity"><label  class="" for="quantity">Quantité:</label>
-      <input type="number"  name="quantity" class="quantityInput" value="${value.quantity}"  required data-productdataid="${value._id}" min="1"  placeholder="${value.quantity}" style="width: 50px"></form></div> <div class="col"> <p class="totalpriceparagraph" data-productdataparagraphid="${value._id}">Prix: <span class="js-product-total-price">${totalSingleProductPrice}</span>€</p></div><button type="button" data-productdataid="${value._id}"class="btn btn-labeled btn-danger btn-supprimer-produit">
-      Effacer</button></div>`;
+      let cartCardData = `<div class="row js-product text-center mb-5" id="${value._id}"><div class="col-12 col-sm-3"><img src="${value.imageUrl}" class="img-fluid"></div> <div class="col mt-2"> <p>${value.name}</p></div> <div class="col mt-2"><form id="orderFormQuantity"><label  class="" for="quantity">Quantité:</label>
+      <input type="number"  name="quantity" class="quantityInput" value="${value.quantity}"  required data-productdataid="${value._id}" min="1"  placeholder="${value.quantity}" style="width: 50px"></form></div> <div class="col mt-2"> <p class="totalpriceparagraph" data-productdataparagraphid="${value._id}">Prix: <span class="js-product-total-price">${totalSingleProductPrice}</span>€</p></div><div class="col text-center mt-2"><button type="button" data-productdataid="${value._id}"class="  btn btn-labeled btn-danger btn-supprimer-produit btn-width">
+      Effacer</button></div></div>`;
       cartCard.innerHTML += cartCardData;
       // create total price div
       let totalPriceDiv = document.getElementById('totalpricediv');
@@ -222,7 +222,9 @@ document.addEventListener('DOMContentLoaded', function () {
 
 
       window.localStorage.removeItem(productId);
-      item.parentElement.remove();
+      let productHtmlToRemove = document.getElementById(productId);
+      productHtmlToRemove.remove();
+      //item.parentElement.remove();
       console.log(totalPrice.innerText);
       if (totalPrice.innerText == 0) {
         totalPrice.parentElement.remove();
