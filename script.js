@@ -200,25 +200,28 @@ document.addEventListener('DOMContentLoaded', function () {
       let totalPriceDiv = document.getElementById('totalpricediv');
       let totalPriceParagraph = `<div class="d-flex  justify-content-center justify-content-md-end"><p>Prix Total: <span id="ordertotalprice" class="js-total-price">${totalPrice}</span>€</p></div>`;
       totalPriceDiv.innerHTML = totalPriceParagraph;
+      // create order part
+      orderDiv = document.getElementById('order')
+    orderDiv.innerHTML = `<div class="d-flex flex-column px-md-5 mb-3"><label class="mb-2" for="prenom">Prénom</label><input  id="prenom" pattern="[A-Za-z]+" type="text" required></input></div><div class="mb-3 d-flex flex-column px-md-5"><label class="mb-2" for="nom">Nom</label><input id="nom" pattern="[A-Za-z]+" type="text" required></input></div><div class="mb-3 d-flex flex-column px-md-5"><label class="mb-2" for="adresse">Adresse</label><input id="adresse" type="text" required></input></div><div class="mb-3 d-flex flex-column px-md-5"><label class="mb-2" for="ville">Ville</label><input id="ville" pattern="[A-Za-z]+" type="text" required></input></div><div class=" mb-3 d-flex flex-column px-md-5"><label class="mb-2" for="email">Email</label><input id="email" type="email" required></input></div><div class="text-center"><button type="submit" id="btnorder" class="btn btn-success mt-3">Commander</button></div>`;
       updateItemQuantityOnCart();
     }
   }
   createCartPage(localStorage);
-  emptyCart()
+  createEmptyCartMessage()
   deleteProductFromCart () 
 
   // empty cart message
-function emptyCart() {
+function createEmptyCartMessage() {
   if (localStorage.length === 0) {
     totalPriceDivEmpty = document.getElementById('totalpricediv');
     totalPriceDivEmpty.innerHTML = `<div class="text-center emptycartmargin"><p>Votre panier est vide.</p><a href="index.html"><button type="button" class="btn btn-success m-5">Retour à l'accueil</button></a></div>`;
               orderDiv = document.getElementById('order');
           orderDiv.remove();
 
-  } else {
+   } /*else {
     orderDiv = document.getElementById('order')
     orderDiv.innerHTML = `<div class="d-flex flex-column px-md-5 mb-3"><label class="mb-2" for="prenom">Prénom</label><input  id="prenom" pattern="[A-Za-z]+" type="text" required></input></div><div class="mb-3 d-flex flex-column px-md-5"><label class="mb-2" for="nom">Nom</label><input id="nom" pattern="[A-Za-z]+" type="text" required></input></div><div class="mb-3 d-flex flex-column px-md-5"><label class="mb-2" for="adresse">Adresse</label><input id="adresse" type="text" required></input></div><div class="mb-3 d-flex flex-column px-md-5"><label class="mb-2" for="ville">Ville</label><input id="ville" pattern="[A-Za-z]+" type="text" required></input></div><div class=" mb-3 d-flex flex-column px-md-5"><label class="mb-2" for="email">Email</label><input id="email" type="email" required></input></div><div class="text-center"><button type="submit" id="btnorder" class="btn btn-success mt-3">Commander</button></div>`;
-  }
+  }*/
 }
 
 
@@ -243,7 +246,7 @@ function emptyCart() {
         productHtmlToRemove.remove();
         console.log(totalPrice.innerText);
         if (totalPrice.innerText == 0) {
-          emptyCart()
+          createEmptyCartMessage()
         }
       })
     })
