@@ -51,8 +51,8 @@
 /* Images */
 
 .img-products {
-  width: 300px;
-  object-fit: cover;
+  max-width: 100%;
+  height: 100px;
 }
 
 /* Links */

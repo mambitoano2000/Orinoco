@@ -8,7 +8,7 @@ function fetchProducts(url, row) {
     })
     .then(function (value) {
       console.log(value);
-      buildColsForProducts(value, row);
+      buildIndexPage(value, row);
 
     })
     .catch(function (err) {
@@ -17,7 +17,7 @@ function fetchProducts(url, row) {
 }
 
 // Build  columns function
-function buildColsForProducts(value, row) {
+function buildIndexPage(value, row) {
   let cols = document.getElementById(row)
 
   for (let i = 0; i < value.length; i++) {
@@ -42,101 +42,102 @@ fetchProducts('http://localhost:3000/api/furniture/', 'meublesRow');
 
 
 // product get query string
+function fetchProductPage() {
+  const queryProductUrlData = window.location.search;
+  console.log(queryProductUrlData);
 
-const queryProductUrlData = window.location.search;
-console.log(queryProductUrlData);
+  // product extract query string
 
-// product extract query string
+  const params = new URLSearchParams(queryProductUrlData);
+  const id = params.get("id");
+  console.log(id);
 
-const params = new URLSearchParams(queryProductUrlData);
-const id = params.get("id");
-console.log(id);
+  //product.html fetch
 
+  fetch(`http://localhost:3000/api/furniture/${id}`)
+    .then(function (res) {
+      if (res.ok) {
+        return res.json();
+      }
+    })
+    .then(function (productValue) {
+      console.log(productValue);
+      // creates product data in html
+      document
+        .getElementById(productName)
+      productName.textContent = `${productValue.name}`;
+      document
+        .getElementById(productPrice)
+      productPrice.textContent = `Prix: ${productValue.price}$`;
+      document
+        .getElementById(productDescription)
+      productDescription.textContent = `${productValue.description}`;
 
-
-
-
-
-//product.html fetch
-
-fetch(`http://localhost:3000/api/furniture/${id}`)
-  .then(function (res) {
-    if (res.ok) {
-      return res.json();
-    }
-  })
-  .then(function (productValue) {
-    console.log(productValue);
-    // creates product data in html
-    document
-      .getElementById(productName)
-    productName.textContent = `${productValue.name}`;
-    document
-      .getElementById(productPrice)
-    productPrice.textContent = `Prix: ${productValue.price}$`;
-    document
-      .getElementById(productDescription)
-    productDescription.textContent = `${productValue.description}`;
-
-    document
-      .getElementById(productImage)
-    productImage.src = productValue.imageUrl;
+      document
+        .getElementById(productImage)
+      productImage.src = productValue.imageUrl;
 
 
-    //calling function to create options in html
-    buildInputForOptionsInput(productValue, 'varnish');
+      //calling function to create options in html
+      buildOptionsQuantitySubmit(productValue, 'varnish');
 
 
 
-    // Function to create options input
+      // Function to create options input
 
-    function buildInputForOptionsInput(value, type) {
-      let optionsSelect = document.getElementById('optionsselect')
-      console.log("type: ", type);
-      let options = value[type]
-      for (let i = 0; i < options.length; i++) {
-        console.log("log options: ", value);
-        let selectOption = `<option value="${options[i]}">${options[i]}</option>`
-        optionsSelect.innerHTML += selectOption;
+      function buildOptionsQuantitySubmit(value, type) {
+        let optionsSelect = document.getElementById('optionsselect')
+        console.log("type: ", type);
+        let options = value[type]
+        for (let i = 0; i < options.length; i++) {
+          console.log("log options: ", value);
+          let selectOption = `<option value="${options[i]}">${options[i]}</option>`
+          optionsSelect.innerHTML += selectOption;
+        }
+        // Create quantity and submit btn
+        document.getElementById(optionForm);
+        let quantityAndSubmitBtns = `<label  class="me-2" for="quantity">Quantité:</label>
+       <input type="number" id="productQuantity" name="quantity" required  value="1" min="1"  placeholder="1"><br><div class="text-center"><button type="submit" id="addToCart" class="btn btn-primary mt-5">Ajouter au panier</button></div>`;
+        optionForm.innerHTML += quantityAndSubmitBtns;
+      }
+
+
+
+      //defines where is the event to get product page submit btn and calls the function to get it
+      const form = document.getElementById('optionForm');
+      form.addEventListener('submit', logSubmit);
+
+      // gets the data from product page submit btn
+      function logSubmit(event) {
+        event.preventDefault();
+        console.log('SUBMIT!!!')
+        console.log(event.target.elements);
+        console.log(event.target.elements.quantity.value);
+
+        let productQuantity = event.target.elements.quantity.value;
+
+        let selectedProperties = {
+          quantity: productQuantity
+        }
+        sendProductToLocalStorage(productValue, selectedProperties);
 
       }
-    }
 
-    // Create quantity and submit btn
-    document
-      .getElementById(optionForm);
-    let quantityAndSubmitBtns = `<label  class="me-2" for="quantity">Quantité:</label>
-           <input type="number" id="productQuantity" name="quantity" required  value="1" min="1"  placeholder="1"><br><div class="text-center"><button type="submit" id="addToCart" class="btn btn-primary mt-5">Ajouter au panier</button></div>`;
-    optionForm.innerHTML += quantityAndSubmitBtns;
+    })
 
-    //defines where is the event to get product page submit btn and calls the function to get it
-    const form = document.getElementById('optionForm');
-    form.addEventListener('submit', logSubmit);
+    .catch(function (err) {
+      // Une erreur est survenue
+    })
 
-    // gets the data from product page submit btn
-    function logSubmit(event) {
-      event.preventDefault();
-      console.log('SUBMIT!!!')
-      console.log(event.target.elements);
-      console.log(event.target.elements.quantity.value);
+}
 
-      let productQuantity = event.target.elements.quantity.value;
 
-      let selectedProperties = {
-        quantity: productQuantity
-      }
-      sendProductToLocalStorage(productValue, selectedProperties);
-
-    }
+fetchProductPage()
 
 
 
 
-  })
 
-  .catch(function (err) {
-    // Une erreur est survenue
-  })
 
 
 
@@ -178,7 +179,7 @@ function sendProductToLocalStorage(product, selectedProperties) {
 
 // get localStorage products
 document.addEventListener('DOMContentLoaded', function () {
-  function getLocalStorageItems(localStorage) {
+  function createCartPage(localStorage) {
     let totalPrice = 0;
     for (let i = 0; i < localStorage.length; i++) {
       let key = localStorage.key(i);
@@ -202,38 +203,52 @@ document.addEventListener('DOMContentLoaded', function () {
       updateItemQuantityOnCart();
     }
   }
-  getLocalStorageItems(localStorage);
+  createCartPage(localStorage);
   emptyCart()
+  deleteProductFromCart () 
+
+  // empty cart message
+function emptyCart() {
+  if (localStorage.length === 0) {
+    totalPriceDivEmpty = document.getElementById('totalpricediv');
+    totalPriceDivEmpty.innerHTML = `<div class="text-center emptycartmargin"><p>Votre panier est vide.</p><a href="index.html"><button type="button" class="btn btn-success m-5">Retour à l'accueil</button></a></div>`;
+              orderDiv = document.getElementById('order');
+          orderDiv.remove();
+
+  } else {
+    orderDiv = document.getElementById('order')
+    orderDiv.innerHTML = `<div class="d-flex flex-column px-md-5 mb-3"><label class="mb-2" for="prenom">Prénom</label><input  id="prenom" pattern="[A-Za-z]+" type="text" required></input></div><div class="mb-3 d-flex flex-column px-md-5"><label class="mb-2" for="nom">Nom</label><input id="nom" pattern="[A-Za-z]+" type="text" required></input></div><div class="mb-3 d-flex flex-column px-md-5"><label class="mb-2" for="adresse">Adresse</label><input id="adresse" type="text" required></input></div><div class="mb-3 d-flex flex-column px-md-5"><label class="mb-2" for="ville">Ville</label><input id="ville" pattern="[A-Za-z]+" type="text" required></input></div><div class=" mb-3 d-flex flex-column px-md-5"><label class="mb-2" for="email">Email</label><input id="email" type="email" required></input></div><div class="text-center"><button type="submit" id="btnorder" class="btn btn-success mt-3">Commander</button></div>`;
+  }
+}
 
 
   // delete product from cart
-  document.querySelectorAll('.btn-supprimer-produit').forEach(item => {
-    item.addEventListener('click', event => {
-      let productId = item.dataset.productdataid;
-
-      console.log("product id ", productId)
-      let value = JSON.parse(localStorage.getItem(productId));
-      console.log("product array ", value)
-      let productTotalPrice = value.quantity * value.price;
-      console.log("productTotalPrice ", productTotalPrice)
-      const totalPrice = document.querySelector('.js-total-price');
-      const oldTotalPrice = Number(totalPrice.innerText);
-      totalPrice.innerText = oldTotalPrice - productTotalPrice;
-
-
-      window.localStorage.removeItem(productId);
-      let productHtmlToRemove = document.getElementById(productId);
-      productHtmlToRemove.remove();
-      //item.parentElement.remove();
-      console.log(totalPrice.innerText);
-      if (totalPrice.innerText == 0) {
-        totalPrice.parentElement.remove();
-        emptyCart()
-        orderDiv = document.getElementById('order');
-        orderDiv.remove();
-      }
+  function deleteProductFromCart () {
+    document.querySelectorAll('.btn-supprimer-produit').forEach(item => {
+      item.addEventListener('click', event => {
+        let productId = item.dataset.productdataid;
+  
+        console.log("product id ", productId)
+        let value = JSON.parse(localStorage.getItem(productId));
+        console.log("product array ", value)
+        let productTotalPrice = value.quantity * value.price;
+        console.log("productTotalPrice ", productTotalPrice)
+        const totalPrice = document.querySelector('.js-total-price');
+        const oldTotalPrice = Number(totalPrice.innerText);
+        totalPrice.innerText = oldTotalPrice - productTotalPrice;
+  
+  
+        window.localStorage.removeItem(productId);
+        let productHtmlToRemove = document.getElementById(productId);
+        productHtmlToRemove.remove();
+        console.log(totalPrice.innerText);
+        if (totalPrice.innerText == 0) {
+          emptyCart()
+        }
+      })
     })
-  })
+  }
+ 
 }, false);
 
 
@@ -253,16 +268,6 @@ function updateItemQuantityOnCart() {
       localStorage.setItem(productId, JSON.stringify(value));
       let newTotalProductPrice = value.price * changedItemQuantityValue;
       console.log("new total product price ", newTotalProductPrice)
-      // let newTotalProductPriceParagraph = document.querySelectorAll(`[data-productdataparagraphid="${value._id}"]`)
-      //   console.log("totalPriceParagraph", newTotalProductPriceParagraph)
-      //   newTotalProductPriceParagraph[0].innerText = `Prix: ${newTotalProductPrice}€`; 
-
-      /*const productTotalPrice = item.closest('.js-product').querySelector('.js-product-total-price');
-      const oldProductTotalPrice = Number(productTotalPrice.innerHTML);
-      productTotalPrice.innerHTML = newTotalProductPrice;
-      const totalPrice = document.querySelector('.js-total-price');
-      const oldTotalPrice = Number(totalPrice.innerText);
-      totalPrice.innerText = oldTotalPrice - oldProductTotalPrice + newTotalProductPrice;*/
       updateTotalPrice(item, newTotalProductPrice);
     })
   })
@@ -279,22 +284,6 @@ function updateTotalPrice(item, newTotalProductPrice) {
   totalPrice.innerText = oldTotalPrice - oldProductTotalPrice + newTotalProductPrice;
 }
 
-// empty cart message
-function emptyCart() {
-  if (localStorage.length === 0) {
-    totalPriceDivEmpty = document.getElementById('totalpricediv');
-    totalPriceDivEmpty.innerHTML = `<div class="text-center emptycartmargin"><p>Votre panier est vide.</p><a href="index.html"><button type="button" class="btn btn-success m-5">Retour à l'accueil</button></a></div>`;
-    /*const createP = document.createElement("P");
-   createP.classList.add('text-center');
-   createP.classList.add('emptycartmargin');
-   const createText = document.createTextNode("Votre panier est vide.");
-   createP.appendChild(createText);
-   totalPriceDivEmpty.appendChild(createP);*/
-  } else {
-    orderDiv = document.getElementById('order')
-    orderDiv.innerHTML = `<div class="d-flex flex-column px-md-5 mb-3"><label class="mb-2" for="prenom">Prénom</label><input  id="prenom" pattern="[A-Za-z]+" type="text" required></input></div><div class="mb-3 d-flex flex-column px-md-5"><label class="mb-2" for="nom">Nom</label><input id="nom" pattern="[A-Za-z]+" type="text" required></input></div><div class="mb-3 d-flex flex-column px-md-5"><label class="mb-2" for="adresse">Adresse</label><input id="adresse" type="text" required></input></div><div class="mb-3 d-flex flex-column px-md-5"><label class="mb-2" for="ville">Ville</label><input id="ville" pattern="[A-Za-z]+" type="text" required></input></div><div class=" mb-3 d-flex flex-column px-md-5"><label class="mb-2" for="email">Email</label><input id="email" type="email" required></input></div><div class="text-center"><button type="submit" id="btnorder" class="btn btn-success mt-3">Commander</button></div>`;
-  }
-}
 
 
 
@@ -332,7 +321,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
 
 
-    //let orderTotalPrice = document.getElementById("ordertotalprice").innerText;
+
 
     for (let i = 0; i < localStorage.length; i++) {
       let key = localStorage.key(i);
@@ -404,7 +393,6 @@ function validateInputs(orderAllInputs, contact, products) {
       })
       .then(function (orderValue) {
         console.log(orderValue);
-        //window.location = "commande.html";
 
         orderTotalPrice = document.getElementById("ordertotalprice").innerText;
         localStorage.clear();
@@ -424,10 +412,6 @@ function validateInputs(orderAllInputs, contact, products) {
 function setOrderInLocalStorage(orderValueWithTotal) {
 
   localStorage.setItem("order", JSON.stringify(orderValueWithTotal));
-  //let orderInLocalStorage = JSON.parse(localStorage.getItem("order"));
-  // console.log("Order in local storage", orderInLocalStorage)
-
-
 
 }
 
