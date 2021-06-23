@@ -202,35 +202,31 @@ document.addEventListener('DOMContentLoaded', function () {
       totalPriceDiv.innerHTML = totalPriceParagraph;
       // create order part
       orderDiv = document.getElementById('order')
-    orderDiv.innerHTML = `<div class="d-flex flex-column px-md-5 mb-3"><label class="mb-2" for="prenom">Prénom</label><input  id="prenom" pattern="[A-Za-z]+" type="text" required></input></div><div class="mb-3 d-flex flex-column px-md-5"><label class="mb-2" for="nom">Nom</label><input id="nom" pattern="[A-Za-z]+" type="text" required></input></div><div class="mb-3 d-flex flex-column px-md-5"><label class="mb-2" for="adresse">Adresse</label><input id="adresse" type="text" required></input></div><div class="mb-3 d-flex flex-column px-md-5"><label class="mb-2" for="ville">Ville</label><input id="ville" pattern="[A-Za-z]+" type="text" required></input></div><div class=" mb-3 d-flex flex-column px-md-5"><label class="mb-2" for="email">Email</label><input id="email" type="email" required></input></div><div class="text-center"><button type="submit" id="btnorder" class="btn btn-success mt-3">Commander</button></div>`;
-      updateItemQuantityOnCart();
+      orderDiv.innerHTML = `<div class="d-flex flex-column px-md-5 mb-3"><label class="mb-2" for="prenom">Prénom</label><input  id="prenom" pattern="[A-Za-z]+" type="text" required></input></div><div class="mb-3 d-flex flex-column px-md-5"><label class="mb-2" for="nom">Nom</label><input id="nom" pattern="[A-Za-z]+" type="text" required></input></div><div class="mb-3 d-flex flex-column px-md-5"><label class="mb-2" for="adresse">Adresse</label><input id="adresse" type="text" required></input></div><div class="mb-3 d-flex flex-column px-md-5"><label class="mb-2" for="ville">Ville</label><input id="ville" pattern="[A-Za-z]+" type="text" required></input></div><div class=" mb-3 d-flex flex-column px-md-5"><label class="mb-2" for="email">Email</label><input id="email" type="email" required></input></div><div class="text-center"><button type="submit" id="btnorder" class="btn btn-success mt-3">Commander</button></div>`;
+      updateProductQuantityOnCart();
     }
   }
   createCartPage(localStorage);
   createEmptyCartMessage()
-  deleteProductFromCart () 
+  deleteProductFromCart()
 
   // empty cart message
-function createEmptyCartMessage() {
-  if (localStorage.length === 0) {
-    totalPriceDivEmpty = document.getElementById('totalpricediv');
-    totalPriceDivEmpty.innerHTML = `<div class="text-center emptycartmargin"><p>Votre panier est vide.</p><a href="index.html"><button type="button" class="btn btn-success m-5">Retour à l'accueil</button></a></div>`;
-              orderDiv = document.getElementById('order');
-          orderDiv.remove();
-
-   } /*else {
-    orderDiv = document.getElementById('order')
-    orderDiv.innerHTML = `<div class="d-flex flex-column px-md-5 mb-3"><label class="mb-2" for="prenom">Prénom</label><input  id="prenom" pattern="[A-Za-z]+" type="text" required></input></div><div class="mb-3 d-flex flex-column px-md-5"><label class="mb-2" for="nom">Nom</label><input id="nom" pattern="[A-Za-z]+" type="text" required></input></div><div class="mb-3 d-flex flex-column px-md-5"><label class="mb-2" for="adresse">Adresse</label><input id="adresse" type="text" required></input></div><div class="mb-3 d-flex flex-column px-md-5"><label class="mb-2" for="ville">Ville</label><input id="ville" pattern="[A-Za-z]+" type="text" required></input></div><div class=" mb-3 d-flex flex-column px-md-5"><label class="mb-2" for="email">Email</label><input id="email" type="email" required></input></div><div class="text-center"><button type="submit" id="btnorder" class="btn btn-success mt-3">Commander</button></div>`;
-  }*/
-}
+  function createEmptyCartMessage() {
+    if (localStorage.length === 0) {
+      totalPriceDivEmpty = document.getElementById('totalpricediv');
+      totalPriceDivEmpty.innerHTML = `<div class="text-center emptycartmargin"><p>Votre panier est vide.</p><a href="index.html"><button type="button" class="btn btn-success m-5">Retour à l'accueil</button></a></div>`;
+      orderDiv = document.getElementById('order');
+      orderDiv.remove();
+    }
+  }
 
 
   // delete product from cart
-  function deleteProductFromCart () {
+  function deleteProductFromCart() {
     document.querySelectorAll('.btn-supprimer-produit').forEach(item => {
       item.addEventListener('click', event => {
         let productId = item.dataset.productdataid;
-  
+
         console.log("product id ", productId)
         let value = JSON.parse(localStorage.getItem(productId));
         console.log("product array ", value)
@@ -239,8 +235,8 @@ function createEmptyCartMessage() {
         const totalPrice = document.querySelector('.js-total-price');
         const oldTotalPrice = Number(totalPrice.innerText);
         totalPrice.innerText = oldTotalPrice - productTotalPrice;
-  
-  
+
+
         window.localStorage.removeItem(productId);
         let productHtmlToRemove = document.getElementById(productId);
         productHtmlToRemove.remove();
@@ -251,13 +247,13 @@ function createEmptyCartMessage() {
       })
     })
   }
- 
+
 }, false);
 
 
 // update quantity in shopping page/localStorage
 
-function updateItemQuantityOnCart() {
+function updateProductQuantityOnCart() {
   document.querySelectorAll('.quantityInput').forEach(item => {
     item.addEventListener('input', event => {
       let changedItemQuantityValue = item.value;
@@ -271,14 +267,14 @@ function updateItemQuantityOnCart() {
       localStorage.setItem(productId, JSON.stringify(value));
       let newTotalProductPrice = value.price * changedItemQuantityValue;
       console.log("new total product price ", newTotalProductPrice)
-      updateTotalPrice(item, newTotalProductPrice);
+      updateTotalPricesInDom(item, newTotalProductPrice);
     })
   })
 }
 
 // update total price in DOM
 
-function updateTotalPrice(item, newTotalProductPrice) {
+function updateTotalPricesInDom(item, newTotalProductPrice) {
   const productTotalPrice = item.closest('.js-product').querySelector('.js-product-total-price');
   const oldProductTotalPrice = Number(productTotalPrice.innerHTML);
   productTotalPrice.innerHTML = newTotalProductPrice;
@@ -322,10 +318,6 @@ document.addEventListener('DOMContentLoaded', function () {
 
     console.log("Array of all inputs in event", orderAllInputs)
 
-
-
-
-
     for (let i = 0; i < localStorage.length; i++) {
       let key = localStorage.key(i);
 
@@ -360,10 +352,6 @@ document.addEventListener('DOMContentLoaded', function () {
     else {
       console.log('Variable is not a string');
     }
-
-
-
-
   }
 })
 
