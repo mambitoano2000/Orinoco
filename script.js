@@ -263,6 +263,9 @@ function updateProductQuantityOnCart() {
       let value = JSON.parse(localStorage.getItem(productId));
       console.log("product array ", value)
       value.quantity = changedItemQuantityValue;
+      if (value.quantity == "") {
+        value.quantity = 0;
+      }
       console.log("new quantity ", value.quantity)
       localStorage.setItem(productId, JSON.stringify(value));
       let newTotalProductPrice = value.price * changedItemQuantityValue;
