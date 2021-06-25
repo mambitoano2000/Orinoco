@@ -290,16 +290,16 @@ function updateTotalPricesInDom(item, newTotalProductPrice) {
 
 
 
-// submit command
+// get contact form data
 
 document.addEventListener('DOMContentLoaded', function () {
 
   const orderForm = document.getElementById('orderform');
 
-  orderForm.addEventListener('submit', logOrderSubmit);
+  orderForm.addEventListener('submit', getOrderSubmit);
 
 
-  function logOrderSubmit(event) {
+  function getOrderSubmit(event) {
     event.preventDefault();
     console.log("ORDER")
 
@@ -320,7 +320,7 @@ document.addEventListener('DOMContentLoaded', function () {
     orderAllInputs.push(orderFirstNameInput, orderLastNameInput, orderAdressInput, orderCityInput, orderEmailInput)
 
     console.log("Array of all inputs in event", orderAllInputs)
-
+    // verifies if localStorage data is type string
     for (let i = 0; i < localStorage.length; i++) {
       let key = localStorage.key(i);
 
@@ -347,10 +347,11 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
     console.log(contact)
-
+    // verifies if form data is type string
     if (typeof contact.firstName === 'string' || typeof contact.lastName === 'string' || typeof contact.address === 'string' || typeof contact.city === 'string' || typeof contact.email === 'string') {
       console.log('Contact is a string');
-      validateInputs(orderAllInputs, contact, products)
+      // if true call the function to validate inputs and send order to api
+      validateInputsSendOrder(orderAllInputs, contact, products)
     }
     else {
       console.log('Variable is not a string');
@@ -358,9 +359,9 @@ document.addEventListener('DOMContentLoaded', function () {
   }
 })
 
-// validate Inputs 
+// validate Inputs and send order to api
 
-function validateInputs(orderAllInputs, contact, products) {
+function validateInputsSendOrder(orderAllInputs, contact, products) {
   console.log("products na funcao", products)
   let valid = true;
   for (let i = 0; i < orderAllInputs.length; i++) {
@@ -371,7 +372,7 @@ function validateInputs(orderAllInputs, contact, products) {
     }
   }
   if (valid) {
-    //alert("Votre commande a été faite.");
+    
     fetch("http://localhost:3000/api/furniture/order", {
       method: "POST",
       headers: {
@@ -395,7 +396,7 @@ function validateInputs(orderAllInputs, contact, products) {
         let orderValueWithTotal = { orderValue, orderTotalPrice }
         console.log("OrDer ValUe wiTh ToTal", orderValueWithTotal)
         setOrderInLocalStorage(orderValueWithTotal);
-        window.location = "commande.html";
+       
 
       })
 
@@ -403,15 +404,17 @@ function validateInputs(orderAllInputs, contact, products) {
 
 }
 
+// Sends api result + total price to local storage and opens order confirmation page
 function setOrderInLocalStorage(orderValueWithTotal) {
 
   localStorage.setItem("order", JSON.stringify(orderValueWithTotal));
+  window.location = "commande.html";
 
 }
 
-// Create order page
+// Creates html content of order confirmation page
 
-document.addEventListener("DOMContentLoaded", function () {
+document.addEventListener("DOMContentLoaded", function orderConfirmationPage() {
 
   if (document.querySelector('.commandepage') && localStorage.getItem("order") == null) {
     window.location = "index.html";
@@ -421,12 +424,7 @@ document.addEventListener("DOMContentLoaded", function () {
     console.log("Order in local storage", orderInLocalStorage)
     orderConfirmation.innerHTML = `<p class="m-5" id="orderconfirmationparagraph">Félicitations <strong>${orderInLocalStorage.orderValue.contact.firstName} ${orderInLocalStorage.orderValue.contact.lastName}</strong>, vous avez passez une commande avec l'identifiant ${orderInLocalStorage.orderValue.orderId} et un prix total de ${orderInLocalStorage.orderTotalPrice}€.</p><div class="mt-5 text-center orderconfirmationmargin"><a href="index.html"><button type="button" class="btn btn-success m-5">Retour à l'accueil</button></a></div>`
     localStorage.clear();
-
   }
-
-
-
-
 });
 
 
