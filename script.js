@@ -12,11 +12,11 @@ function fetchProducts(url, row) {
 
     })
     .catch(function (err) {
-      // Une erreur est survenue
+      console.log("api error")
     });
 }
 
-// Build  columns function
+// Build  index page function
 function buildIndexPage(value, row) {
   let cols = document.getElementById(row)
 
@@ -40,7 +40,7 @@ function buildIndexPage(value, row) {
 fetchProducts('http://localhost:3000/api/furniture/', 'meublesRow');
 
 
-
+// function to fetch product page and call other functions inside this page
 // product get query string
 function fetchProductPage() {
   const queryProductUrlData = window.location.search;
@@ -83,7 +83,7 @@ function fetchProductPage() {
 
 
 
-      // Function to create options input
+      // Function to create options select and quantity input
 
       function buildOptionsQuantitySubmit(value, type) {
         let optionsSelect = document.getElementById('optionsselect')
@@ -94,14 +94,13 @@ function fetchProductPage() {
           let selectOption = `<option value="${options[i]}">${options[i]}</option>`
           optionsSelect.innerHTML += selectOption;
         }
+
         // Create quantity and submit btn
         document.getElementById(optionForm);
         let quantityAndSubmitBtns = `<label  class="me-2" for="quantity">Quantité:</label>
        <input type="number" id="productQuantity" name="quantity" required  value="1" min="1"  placeholder="1"><br><div class="text-center"><button type="submit" id="addToCart" class="btn btn-primary mt-5">Ajouter au panier</button></div>`;
         optionForm.innerHTML += quantityAndSubmitBtns;
       }
-
-
 
       //defines where is the event to get product page submit btn and calls the function to get it
       const form = document.getElementById('optionForm');
@@ -120,25 +119,17 @@ function fetchProductPage() {
           quantity: productQuantity
         }
         sendProductToLocalStorage(productValue, selectedProperties);
-
       }
-
     })
 
     .catch(function (err) {
-      // Une erreur est survenue
+      console.log("api error")
     })
-
 }
 
+// calls the function to fetch product page
 
 fetchProductPage()
-
-
-
-
-
-
 
 
 
