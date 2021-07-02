@@ -109,7 +109,7 @@ function fetchProductPage() {
       // gets the data from product page submit btn
       function logSubmit(event) {
         event.preventDefault();
-        console.log('SUBMIT!!!')
+        console.log('SUBMIT!')
         console.log(event.target.elements);
         console.log(event.target.elements.quantity.value);
 
@@ -385,7 +385,7 @@ function validateInputsSendOrder(orderAllInputs, contact, products) {
 
 
         let orderValueWithTotal = { orderValue, orderTotalPrice }
-        console.log("OrDer ValUe wiTh ToTal", orderValueWithTotal)
+        console.log("Order value with total", orderValueWithTotal)
         setOrderInLocalStorage(orderValueWithTotal);
        
 
